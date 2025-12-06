@@ -1,8 +1,10 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router";
-import Button from "../../components/Shared/Button/Button";
+import { Link, Navigate, useLocation, useNavigate } from "react-router";
 import useAuth from "../../hooks/useAuth";
+import { TbFidgetSpinner } from "react-icons/tb";
+import LoadingSpinner from "../../components/Shared/LoadingSpinner/LoadingSpinner";
+import toast from "react-hot-toast";
 
 const LogIn = () => {
   const {
@@ -11,8 +13,22 @@ const LogIn = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
-    console.log(data)
+  const {loading,signIn,user}=useAuth();
+    const navigate = useNavigate()
+  const location = useLocation()
+
+   if (loading) return <LoadingSpinner />
+   const from = location.state || '/'
+  if (user) return <Navigate to={from} replace={true} />
+  const onSubmit =async (data) => {
+    const {email,password}=data;
+    try{
+        await signIn(email,password);
+         toast.success('Login Successful')
+        navigate(from, { replace: true })
+    }catch(err){
+         toast.error(err?.message)
+    }
   };
   return (
     <div className="flex justify-center items-center min-h-screen bg-white">
@@ -80,27 +96,28 @@ const LogIn = () => {
           </div>
 
           <div>
-            {/* <button
+            <button
               type='submit'
-              className='bg-lime-500 w-full rounded-md py-3 text-white'
+              className='bg-primary w-full rounded-md py-3 text-white'
             >
               {loading ? (
                 <TbFidgetSpinner className='animate-spin m-auto' />
               ) : (
                 'Continue'
               )}
-            </button> */}
-            <Button label="Continue"></Button>
+            </button>
+          
           </div>
         </form>
 
         <p className="px-6 text-sm text-center text-gray-400">
-          Already have an account?{" "}
+         Don&apos;t have an account yet?{' '}
           <Link
-            to="/login"
-            className="hover:underline hover:text-lime-500 text-gray-600"
+            to="/signup"
+             state={from}
+            className="hover:underline hover:text-primary text-gray-600"
           >
-            Login
+            Sign Up
           </Link>
           .
         </p>

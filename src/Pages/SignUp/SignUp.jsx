@@ -15,7 +15,7 @@ const SignUp = () => {
     reset,
     formState: { errors },
   } = useForm();
-  const {createUser,updateUserProfile,loading}=useAuth()
+  const {createUser,updateUserProfile,loading,setLoading}=useAuth()
   const navigate=useNavigate();
   const onSubmit =async (data) => {
        const { name, image, email, password,Cpassword ,address} = data;
@@ -38,11 +38,13 @@ const SignUp = () => {
          toast.success('Signup Successful')
          navigate("/");
        }catch(err){
+        
         if(err.message==="Firebase: Error (auth/email-already-in-use).")
           toast.error("Email already in use")
         else
           toast.error(err.message)
        }
+       setLoading(false);
   };
   return (
     <div className="flex justify-center items-center min-h-screen bg-white">
