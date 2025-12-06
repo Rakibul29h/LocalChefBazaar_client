@@ -11,3 +11,7 @@
   --color-secondary: teal;
   --color-accent:#E74C3C;
 }
+
+.custom_btn{
+  @apply btn btn-primary text-white hover:bg-orange-600 rounded-full
+}

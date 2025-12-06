@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
-import Button from "../../components/Shared/Button/Button";
 import { imageUpload } from "../../Utils/Utility";
 import useAuth from "../../hooks/useAuth";
 import toast from "react-hot-toast";
