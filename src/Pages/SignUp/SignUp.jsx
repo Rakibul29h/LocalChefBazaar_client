@@ -1,16 +1,48 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import Button from "../../components/Shared/Button/Button";
+import { imageUpload } from "../../Utils/Utility";
+import useAuth from "../../hooks/useAuth";
+import toast from "react-hot-toast";
+import { TbFidgetSpinner } from "react-icons/tb";
 
 const SignUp = () => {
+  const [passError,setPassError]=useState(false)
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data) => {
-    console.log(data)
+  const {createUser,updateUserProfile,loading}=useAuth()
+  const navigate=useNavigate();
+  const onSubmit =async (data) => {
+       const { name, image, email, password,Cpassword ,address} = data;
+
+       if(password!==Cpassword)
+       {
+        setPassError(true)
+        return
+       }
+        setPassError(false);
+       const imageFile=image[0];
+       try{
+
+        const imageURL=await imageUpload(imageFile);
+
+         await createUser(email, password);
+  
+         await updateUserProfile(name,imageURL);
+         reset();
+         toast.success('Signup Successful')
+         navigate("/");
+       }catch(err){
+        if(err.message==="Firebase: Error (auth/email-already-in-use).")
+          toast.error("Email already in use")
+        else
+          toast.error(err.message)
+       }
   };
   return (
     <div className="flex justify-center items-center min-h-screen bg-white">
@@ -154,7 +186,7 @@ const SignUp = () => {
               <input
                 type="password"
                 autoComplete="new-password"
-                id="password"
+                id="Cpassword"
                 placeholder="*******"
                 className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-orange-200 bg-gray-100 text-gray-900"
                 {...register("Cpassword", {
@@ -171,20 +203,22 @@ const SignUp = () => {
                 </p>
               )}
             </div>
+
+          {passError && <span className="text-red-500 text-sm"> Passwords do not match</span>}
           </div>
 
           <div>
-            {/* <button
+            <button
               type='submit'
-              className='bg-lime-500 w-full rounded-md py-3 text-white'
+              className='bg-primary w-full rounded-md py-3 text-white'
             >
               {loading ? (
                 <TbFidgetSpinner className='animate-spin m-auto' />
               ) : (
-                'Continue'
+                'Register'
               )}
-            </button> */}
-            <Button label="Continue"></Button>
+            </button>
+            
           </div>
         </form>
 
@@ -192,7 +226,7 @@ const SignUp = () => {
           Already have an account?{" "}
           <Link
             to="/login"
-            className="hover:underline hover:text-lime-500 text-gray-600"
+            className="hover:underline hover:text-primary text-gray-600"
           >
             Login
           </Link>

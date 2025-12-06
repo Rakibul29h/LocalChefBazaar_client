@@ -2,6 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router";
 import Button from "../../components/Shared/Button/Button";
+import useAuth from "../../hooks/useAuth";
 
 const LogIn = () => {
   const {
@@ -9,6 +10,7 @@ const LogIn = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+
   const onSubmit = (data) => {
     console.log(data)
   };
