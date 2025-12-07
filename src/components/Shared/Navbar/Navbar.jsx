@@ -51,7 +51,7 @@ const Navbar = () => {
       </NavLink>
       {user && (
         <NavLink
-          to="/meals"
+          to="/dashboard"
           className={({ isActive }) =>
             isActive ? "text-primary" : `hover:text-primary font-semibold`
           }
