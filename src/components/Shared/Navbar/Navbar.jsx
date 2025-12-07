@@ -3,11 +3,33 @@ import Container from "../Container/Container";
 import { Link, NavLink } from "react-router";
 import Logo from "../Logo/Logo";
 import useAuth from "../../../hooks/useAuth";
+import { ScaleLoader } from "react-spinners";
 
 const Navbar = () => {
-  const { user, logOut } = useAuth();
+  const { user, logOut, loading } = useAuth();
 
-  console.log(user);
+  const userBtn = (
+    <>
+      <div className="dropdown dropdown-center">
+        <div tabIndex={0} role="button" className=" m-1">
+          <img className="h-12 w-12 rounded-full" src={user?.photoURL} alt="" />
+        </div>
+        <ul
+          tabIndex="-1"
+          className="dropdown-content menu bg-base-100 rounded-box z-1 w-44 p-2 shadow-sm"
+        >
+          <li>
+            <button
+              onClick={logOut}
+              className="hover:bg-orange-100 font-semibold"
+            >
+              Log Out
+            </button>
+          </li>
+        </ul>
+      </div>
+    </>
+  );
   const links = (
     <>
       <NavLink
@@ -81,22 +103,9 @@ const Navbar = () => {
             <ul className="menu menu-horizontal px-1 gap-8 text-lg">{links}</ul>
           </div>
           <div className="navbar-end">
-            {user ? (
-              <div className="dropdown dropdown-center">
-                <div tabIndex={0} role="button" className=" m-1">
-                 <img className="h-12 w-12 rounded-full" src={user?.photoURL} alt="" />
-                </div>
-                <ul
-                  tabIndex="-1"
-                  className="dropdown-content menu bg-base-100 rounded-box z-1 w-44 p-2 shadow-sm"
-                >
-                  <li>
-                    <button onClick={logOut} className="hover:bg-orange-100 font-semibold">Log Out</button>
-                  </li>
-                 
-                </ul>
-              </div>
-            ) : (
+            {
+            loading?<ScaleLoader size={23} color='orange' />:
+            user ?userBtn : (
               <Link to="/login" className="custom_btn">
                 Log In
               </Link>

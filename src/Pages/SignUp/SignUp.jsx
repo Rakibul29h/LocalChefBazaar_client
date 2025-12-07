@@ -5,45 +5,50 @@ import { imageUpload } from "../../Utils/Utility";
 import useAuth from "../../hooks/useAuth";
 import toast from "react-hot-toast";
 import { TbFidgetSpinner } from "react-icons/tb";
+import useAxios from "../../hooks/useAxios";
 
 const SignUp = () => {
-  const [passError,setPassError]=useState(false)
+  const [passError, setPassError] = useState(false);
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
   } = useForm();
-  const {createUser,updateUserProfile,loading,setLoading}=useAuth()
-  const navigate=useNavigate();
-  const onSubmit =async (data) => {
-       const { name, image, email, password,Cpassword ,address} = data;
+  const { createUser, updateUserProfile, loading, setLoading } = useAuth();
+  const navigate = useNavigate();
+  const Axios = useAxios();
+  const onSubmit = async (data) => {
+    const { name, image, email, password, Cpassword, address } = data;
+    setLoading(true);
+    if (password !== Cpassword) {
+      setPassError(true);
+      return;
+    }
+    setPassError(false);
+    const imageFile = image[0];
+    try {
+      const imageURL = await imageUpload(imageFile);
 
-       if(password!==Cpassword)
-       {
-        setPassError(true)
-        return
-       }
-        setPassError(false);
-       const imageFile=image[0];
-       try{
-
-        const imageURL=await imageUpload(imageFile);
-
-         await createUser(email, password);
-  
-         await updateUserProfile(name,imageURL);
-         reset();
-         toast.success('Signup Successful')
-         navigate("/");
-       }catch(err){
-        
-        if(err.message==="Firebase: Error (auth/email-already-in-use).")
-          toast.error("Email already in use")
-        else
-          toast.error(err.message)
-       }
-       setLoading(false);
+      await createUser(email, password);
+      await updateUserProfile(name, imageURL);
+      const userData = {
+        name,
+        email,
+        address,
+        photoURL: imageURL,
+      };
+      const result = await Axios.post("/user", userData);
+      console.log(result);
+      reset();
+      toast.success("Signup Successful");
+      navigate("/");
+    } catch (err) {
+      if (err.message === "Firebase: Error (auth/email-already-in-use).")
+        toast.error("Email already in use");
+      else toast.error(err.message);
+    }
+    setLoading(false);
   };
   return (
     <div className="flex justify-center items-center min-h-screen bg-white">
@@ -136,7 +141,7 @@ const SignUp = () => {
                 </p>
               )}
             </div>
-                    <div>
+            <div>
               <label htmlFor="address" className="block mb-2 text-sm">
                 Address
               </label>
@@ -147,15 +152,14 @@ const SignUp = () => {
                 className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-orange-200 bg-gray-100 text-gray-900"
                 data-temp-mail-org="0"
                 {...register("address", {
-                  required: "Address is required", 
+                  required: "Address is required",
                 })}
               />
-             
             </div>
             <div>
               <div className="flex justify-between">
                 <label htmlFor="password" className="text-sm mb-2">
-                   Password
+                  Password
                 </label>
               </div>
               <input
@@ -205,21 +209,25 @@ const SignUp = () => {
               )}
             </div>
 
-          {passError && <span className="text-red-500 text-sm"> Passwords do not match</span>}
+            {passError && (
+              <span className="text-red-500 text-sm">
+                {" "}
+                Passwords do not match
+              </span>
+            )}
           </div>
 
           <div>
             <button
-              type='submit'
-              className='bg-primary w-full rounded-md py-3 text-white'
+              type="submit"
+              className="bg-primary w-full rounded-md py-3 text-white"
             >
               {loading ? (
-                <TbFidgetSpinner className='animate-spin m-auto' />
+                <TbFidgetSpinner className="animate-spin m-auto" />
               ) : (
-                'Register'
+                "Register"
               )}
             </button>
-            
           </div>
         </form>
 

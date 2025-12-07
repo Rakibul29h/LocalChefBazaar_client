@@ -10,24 +10,29 @@ const LogIn = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
 
-  const {loading,signIn,user}=useAuth();
-    const navigate = useNavigate()
-  const location = useLocation()
+  const { loading, signIn, user, setLoading } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
 
-   if (loading) return <LoadingSpinner />
-   const from = location.state || '/'
-  if (user) return <Navigate to={from} replace={true} />
-  const onSubmit =async (data) => {
-    const {email,password}=data;
-    try{
-        await signIn(email,password);
-         toast.success('Login Successful')
-        navigate(from, { replace: true })
-    }catch(err){
-         toast.error(err?.message)
+  if (loading) return <LoadingSpinner />;
+  const from = location.state || "/";
+  if (user) return <Navigate to={from} replace={true} />;
+  const onSubmit = async (data) => {
+    const { email, password } = data;
+    try {
+      await signIn(email, password);
+      toast.success("Login Successful");
+      reset();
+      navigate(from, { replace: true });
+    } catch (err) {
+      toast.error(err?.message);
+      setLoading(false);
+      reset();
+      navigate("/login");
     }
   };
   return (
@@ -44,7 +49,6 @@ const LogIn = () => {
           className="space-y-6 ng-untouched ng-pristine ng-valid"
         >
           <div className="space-y-4">
-           
             <div>
               <label htmlFor="email" className="block mb-2 text-sm">
                 Email address
@@ -69,7 +73,7 @@ const LogIn = () => {
                 </p>
               )}
             </div>
-     
+
             <div>
               <div className="flex justify-between">
                 <label htmlFor="password" className="text-sm mb-2">
@@ -84,7 +88,6 @@ const LogIn = () => {
                 className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-orange-200 bg-gray-100 text-gray-900"
                 {...register("password", {
                   required: "Password is required",
-                 
                 })}
               />
               {errors.password && (
@@ -97,24 +100,23 @@ const LogIn = () => {
 
           <div>
             <button
-              type='submit'
-              className='bg-primary w-full rounded-md py-3 text-white'
+              type="submit"
+              className="bg-primary w-full rounded-md py-3 text-white"
             >
               {loading ? (
-                <TbFidgetSpinner className='animate-spin m-auto' />
+                <TbFidgetSpinner className="animate-spin m-auto" />
               ) : (
-                'Continue'
+                "Continue"
               )}
             </button>
-          
           </div>
         </form>
 
         <p className="px-6 text-sm text-center text-gray-400">
-         Don&apos;t have an account yet?{' '}
+          Don&apos;t have an account yet?{" "}
           <Link
             to="/signup"
-             state={from}
+            state={from}
             className="hover:underline hover:text-primary text-gray-600"
           >
             Sign Up
