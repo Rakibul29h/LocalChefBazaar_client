@@ -7,6 +7,7 @@ import Home from "../Pages/Home/Home";
 import Meals from "../Pages/Meals/Meals";
 import DashBoardLayout from "../layouts/DashBoardLayout/DashBoardLayout";
 import PrivateRoute from "./PrivateRoute/PrivateRoute";
+import Profile from "../Pages/Dashboard/Profile/Profile";
 
 export const router = createBrowserRouter([
   {
@@ -27,11 +28,17 @@ export const router = createBrowserRouter([
     ],
   },
   {
-    path: "dashboard",
+    path: "/dashboard",
     element:
     <PrivateRoute>
        <DashBoardLayout></DashBoardLayout>
     </PrivateRoute>,
+    children:[
+      {
+        path:"profile",
+        element:<Profile></Profile>
+      }
+    ]
    
   },
   
