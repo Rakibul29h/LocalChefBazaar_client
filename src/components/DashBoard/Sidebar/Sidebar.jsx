@@ -1,12 +1,12 @@
 
-import { Link, useNavigate } from 'react-router'
+import { Link } from 'react-router'
 import useAuth from '../../../hooks/useAuth'
 
 // Icons
 import { GrLogout } from 'react-icons/gr'
 import { FcSettings } from 'react-icons/fc'
 import { AiOutlineBars } from 'react-icons/ai'
-import { BsGraphUp } from 'react-icons/bs'
+
 
 // User Menu
 

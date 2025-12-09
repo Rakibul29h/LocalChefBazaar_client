@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import {
-  GoogleAuthProvider,
   createUserWithEmailAndPassword,
   getAuth,
   onAuthStateChanged,
@@ -10,13 +9,14 @@ import {
 } from 'firebase/auth'
 import { app } from '../firebase/firebase.config'
 import { AuthContext } from './AuthContext'
+import useAxios from './../hooks/useAxios';
 
 const auth = getAuth(app)
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
-
+const Axios=useAxios();
   const createUser = (email, password) => {
     setLoading(true)
     return createUserWithEmailAndPassword(auth, email, password)
@@ -26,11 +26,16 @@ const AuthProvider = ({ children }) => {
     setLoading(true)
     return signInWithEmailAndPassword(auth, email, password)
   }
+const logOut = () => {
 
-  const logOut = async () => {
-    setLoading(true)
-    return signOut(auth)
-  }
+  setLoading(true);
+
+  return Axios.post("/logout", {}, { withCredentials: true })
+    .then(() => {
+      return signOut(auth);
+    })
+  
+};
 
   const updateUserProfile = (name, photo) => {
     return updateProfile(auth.currentUser, {
@@ -42,6 +47,12 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async currentUser => {
       setUser(currentUser)
+      if(currentUser)
+      {
+        await Axios.post('/getToken',{email:currentUser.email},{withCredentials:true})
+        console.log("JWT cookies set")
+      }
+      
       setLoading(false)
     })
     return () => {
