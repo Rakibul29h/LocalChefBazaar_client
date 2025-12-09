@@ -38,8 +38,8 @@ const SignUp = () => {
         address,
         photoURL: imageURL,
       };
-      const result = await Axios.post("/user", userData);
-      console.log(result);
+    await Axios.post("/user", userData);
+   
       reset();
       toast.success("Signup Successful");
       navigate("/");

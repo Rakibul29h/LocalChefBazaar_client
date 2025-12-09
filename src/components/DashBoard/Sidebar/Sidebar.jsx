@@ -12,11 +12,15 @@ import { AiOutlineBars } from 'react-icons/ai'
 
 import Logo from '../../Shared/Logo/Logo'
 import MenuItem from './MenuItem/MenuItem'
+import AdminMenu from '../../../Pages/Dashboard/Menu/AdminMenu'
+import CustomerMenu from '../../../Pages/Dashboard/Menu/CustomerMenu'
+import ChefMenu from '../../../Pages/Dashboard/Menu/ChefMenu'
+import useRole from '../../../hooks/useRole'
 
 const Sidebar = () => {
 
 const {logOut}=useAuth();
-
+const [role]=useRole();
   return (
     <>
      <div className='bg-gray-100 text-gray-800 flex justify-between md:hidden'>
@@ -57,7 +61,11 @@ const {logOut}=useAuth();
           <div className='flex flex-col justify-between flex-1 mt-6'>
             {/*  Menu Items */}
             <nav>
-              
+              {role ==='Customer'&&<CustomerMenu></CustomerMenu>}
+              {role==='Admin' && <AdminMenu></AdminMenu>}
+              {role === 'Chef' && <ChefMenu></ChefMenu>}
+            
+
             </nav>
           </div>
 
@@ -73,7 +81,7 @@ const {logOut}=useAuth();
             <button
               onClick={
                 logOut}
-              className='flex cursor-pointer w-full items-center px-4 py-2 mt-5 text-gray-600 hover:bg-orange-300   hover:text-gray-700 transition-colors duration-300 transform'
+              className='flex cursor-pointer w-full items-center px-4 py-2 mt-5 text-gray-600 hover:bg-gray-200   hover:text-orange-700 transition-colors duration-300 transform'
             >
               <GrLogout className='w-5 h-5' />
 

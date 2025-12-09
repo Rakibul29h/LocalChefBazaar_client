@@ -8,6 +8,14 @@ import Meals from "../Pages/Meals/Meals";
 import DashBoardLayout from "../layouts/DashBoardLayout/DashBoardLayout";
 import PrivateRoute from "./PrivateRoute/PrivateRoute";
 import Profile from "../Pages/Dashboard/Profile/Profile";
+import MyOrders from "../Pages/Dashboard/User/MyOrders";
+import MyReview from "../Pages/Dashboard/User/MyReview";
+import FavoriteMeals from "../Pages/Dashboard/User/FavoriteMeals";
+import ManageUser from "../Pages/Dashboard/Admin/ManageUser";
+import ManageRequest from "../Pages/Dashboard/Admin/ManageRequest";
+import PlatformStatistics from "../Pages/Dashboard/Admin/PlatformStatistics";
+import CreateMeal from "../Pages/Dashboard/Chef/CreateMeal";
+import MyMeals from "../Pages/Dashboard/Chef/MyMeals";
 
 export const router = createBrowserRouter([
   {
@@ -37,6 +45,41 @@ export const router = createBrowserRouter([
       {
         path:"profile",
         element:<Profile></Profile>
+      },
+      {
+        path:"myOrders",
+        element:<MyOrders></MyOrders>
+      },
+      {
+        path:"myReviews",
+        element:<MyReview></MyReview>
+      },
+      {
+        path:"favorite",
+        element:<FavoriteMeals></FavoriteMeals>
+      },
+      {
+        path:"manageUser",
+        element:<ManageUser></ManageUser>
+      },
+      {
+        path:"manageRequest",
+        element:<ManageRequest></ManageRequest>
+      },{
+        path:"statistics",
+        element:<PlatformStatistics></PlatformStatistics>
+      },
+      {
+        path:"createMeals",
+        element:<CreateMeal></CreateMeal>
+      },
+      {
+        path:"myMeals",
+        element:<MyMeals></MyMeals>
+      },
+      {
+        path:"myOrders",
+        element:<MyOrders></MyOrders>
       }
     ]
    

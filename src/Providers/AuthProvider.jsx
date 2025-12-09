@@ -50,7 +50,6 @@ const logOut = () => {
       if(currentUser)
       {
         await Axios.post('/getToken',{email:currentUser.email},{withCredentials:true})
-        console.log("JWT cookies set")
       }
       
       setLoading(false)
