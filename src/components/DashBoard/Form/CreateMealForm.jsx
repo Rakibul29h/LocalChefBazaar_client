@@ -47,6 +47,7 @@ const CreateMealForm = () => {
       chefID,
       chefEmail,
       rating,
+      deliveryArea
     } = data;
     const imageFile = data.image[0];
     
@@ -61,7 +62,8 @@ const CreateMealForm = () => {
       chefExperience,
       chefID,
       chefEmail,
-      rating:Number(rating)
+      rating:Number(rating),
+      deliveryArea
     };
     
     await mutateAsync(mealsData);
@@ -237,10 +239,11 @@ const CreateMealForm = () => {
                   {...register("chefID")}
                 />
               </div>
+
             </div>
 
             {/* Chef Experience */}
-            <div className="form-control w-full mt-5">
+                          <div className="form-control w-full mt-5">
               <label className="label">
                 <span className="label-text font-semibold text-slate-700">
                   Chef Experience
@@ -248,11 +251,31 @@ const CreateMealForm = () => {
               </label>
               <input
                 type="text"
-                placeholder="e.g., Beef Tehari"
+                placeholder="years and place"
                 className={`input input-bordered w-full focus:outline-none focus:border-orange-500
                   }`}
                 {...register("chefExperience")}
               />
+            </div>
+            {/* Delivery Area */}
+                 <div className="form-control w-full mt-5">
+              <label className="label">
+                <span className="label-text font-semibold text-slate-700">
+                  Delivery Area
+                </span>
+              </label>
+              <input
+                type="text"
+                placeholder="Dhaka-1205....."
+                className={`input input-bordered w-full focus:outline-none focus:border-orange-500
+                  }`}
+                {...register("deliveryArea",{required:"Delivery area is required"})}
+              />
+               {errors.deliveryArea && (
+                  <span className="text-red-500">
+                    {errors.deliveryArea.message}
+                  </span>
+                )}
             </div>
             {/* Ingredients */}
             <div className="form-control w-full mt-6">

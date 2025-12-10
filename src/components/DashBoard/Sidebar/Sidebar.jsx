@@ -16,34 +16,43 @@ import AdminMenu from '../../../Pages/Dashboard/Menu/AdminMenu'
 import CustomerMenu from '../../../Pages/Dashboard/Menu/CustomerMenu'
 import ChefMenu from '../../../Pages/Dashboard/Menu/ChefMenu'
 import useRole from '../../../hooks/useRole'
+import { useState } from 'react'
+import LoadingSpinner from '../../Shared/LoadingSpinner/LoadingSpinner'
 
 const Sidebar = () => {
+  const [isActive, setActive] = useState(false);
+  const [role] = useRole();
+
 
 const {logOut}=useAuth();
-const [role]=useRole();
+  // Sidebar Responsive Handler
+  const handleToggle = () => {
+    setActive(!isActive);
+  };
+
+  // if (isRoleLoading) return <LoadingSpinner />;
   return (
     <>
-     <div className='bg-gray-100 text-gray-800 flex justify-between md:hidden'>
+     <div className='bg-orange-50 text-gray-800 flex justify-between md:hidden'>
         <div>
           <div className='block cursor-pointer p-4 font-bold'>
             <Link to='/'>
-              {/* <img src={logo} alt='logo' width='100' height='100' /> */}
+              
               <Logo></Logo>
-              asdjfkl
             </Link>
           </div>
         </div>
 
         <button
-          // onClick={handleToggle}
-          className='mobile-menu-button p-4 focus:outline-none focus:bg-gray-200'
+          onClick={handleToggle}
+          className='mobile-menu-button p-4 focus:outline-none focus:bg-orange-200'
         >
           <AiOutlineBars className='h-5 w-5' />
         </button>
       </div>
         <div
         className={`z-10 md:fixed flex flex-col justify-between overflow-x-hidden bg-orange-50 w-64 space-y-6 px-2 py-4 absolute inset-y-0 left-0 transform ${
-          '-translate-x-full'
+         !isActive && '-translate-x-full'
         }  md:translate-x-0  transition duration-200 ease-in-out`}
       >
         <div className='flex flex-col h-full'>
