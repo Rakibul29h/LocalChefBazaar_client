@@ -1,19 +1,72 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-
+import { imageUpload } from "../../../Utils/Utility";
+import useAuth from "../../../hooks/useAuth";
+import useAxiosSecure from "./../../../hooks/useSecureAxios";
+import { useMutation } from "@tanstack/react-query";
+import toast from "react-hot-toast";
+import LoadingSpinner from './../../../components/Shared/LoadingSpinner/LoadingSpinner';
+import ErrorPage from './../../ErrorPage/ErrorPage';
 const CreateMeal = () => {
+  const { user } = useAuth();
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm();
+  const {
+    isPending,
+    isError,
+    mutateAsync,
+    reset: mutationReset,
+  } = useMutation({
+    mutationFn: async (payload) =>
+      await axiosSecure.post(`/createMeals`, payload),
+    onSuccess: (data) => {
+      console.log(data);
+      // show toast
+      toast.success("Meal Added successfully");
+      mutationReset();
+      
+    }
+  });
 
-  const onSubmit = (data) => {
+  const axiosSecure = useAxiosSecure();
+  const onSubmit = async (data) => {
+    const {
+      foodName,
+      price,
+      deliveryTime,
+      ingredients,
+      chefName,
+      chefExperience,
+      chefID,
+      chefEmail,
+      rating,
+    } = data;
+    const imageFile = data.image[0];
     
-    console.log(data);
-
+    const imageURL = await imageUpload(imageFile);
+    const mealsData = {
+      foodName,
+      price:Number(price),
+      deliveryTime,
+      ingredients: ingredients.split(","),
+      image: imageURL,
+      chefName,
+      chefExperience,
+      chefID,
+      chefEmail,
+      rating:Number(rating)
+    };
+    
+    await mutateAsync(mealsData);
+    reset();
   };
 
+  if(isPending) return <LoadingSpinner></LoadingSpinner>
+  if(isError) return <ErrorPage></ErrorPage>
   return (
     <div className="min-h-screen bg-base-200 flex items-center justify-center p-4">
       <div className="w-full max-w-4xl bg-white rounded-xl shadow-xl p-8 md:p-12">
@@ -31,6 +84,39 @@ const CreateMeal = () => {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <div className="bg-white border border-gray-100 rounded-lg p-6 md:p-8 shadow-sm">
             <div className="grid grid-cols-1 items-center sm:grid-cols-2 gap-6">
+              {/* Chef Name */}
+              <div className="form-control w-full">
+                <label className="label">
+                  <span className="label-text font-semibold text-slate-700">
+                    Chef Name
+                  </span>
+                </label>
+                <input
+                  type="text"
+                  placeholder="e.g., Beef Tehari"
+                  defaultValue={user?.displayName}
+                  className={`input input-bordered w-full focus:outline-none focus:border-orange-500
+                  }`}
+                  {...register("chefName")}
+                />
+              </div>
+              {/* Chef Email */}
+              <div className="form-control w-full">
+                <label className="label">
+                  <span className="label-text font-semibold text-slate-700">
+                    Chef Email
+                  </span>
+                </label>
+                <input
+                  type="email"
+                  placeholder="e.g., Beef Tehari"
+                  defaultValue={user?.email}
+                  readOnly
+                  className={`input input-bordered w-full focus:outline-none focus:border-orange-500
+                  }`}
+                  {...register("chefEmail")}
+                />
+              </div>
               {/* Food Name */}
               <div className="form-control w-full">
                 <label className="label">
@@ -45,8 +131,11 @@ const CreateMeal = () => {
                   }`}
                   {...register("foodName", { required: "Food name required" })}
                 />
-                {errors.foodName&&<span className="text-red-500">{errors.foodName.message}</span>}
-             
+                {errors.foodName && (
+                  <span className="text-red-500">
+                    {errors.foodName.message}
+                  </span>
+                )}
               </div>
 
               {/* Price */}
@@ -57,13 +146,18 @@ const CreateMeal = () => {
                   </span>
                 </label>
                 <input
-                  type="number"
-                  defaultValue="1"
+                  type="text"
+                  placeholder="e.g 12.99"
                   className={`input input-bordered w-full focus:outline-none focus:border-orange-500 
                   }`}
-                  {...register("price", { required: "Price is required", min: 0 })}
+                  {...register("price", {
+                    required: "Price is required",
+                    min: 0,
+                  })}
                 />
-                 {errors.price&&<span className="text-red-500">{errors.price.message}</span>}
+                {errors.price && (
+                  <span className="text-red-500">{errors.price.message}</span>
+                )}
               </div>
 
               {/* Estimated Delivery Time */}
@@ -77,9 +171,15 @@ const CreateMeal = () => {
                   type="text"
                   placeholder="e.g., 45 mins"
                   className="input input-bordered w-full focus:outline-none focus:border-orange-500"
-                  {...register("deliveryTime",{required:"Estimate time is required"})}
+                  {...register("deliveryTime", {
+                    required: "Estimate time is required",
+                  })}
                 />
-                {errors.deliveryTime&&<span className="text-red-500">{errors.deliveryTime.message}</span>}
+                {errors.deliveryTime && (
+                  <span className="text-red-500">
+                    {errors.deliveryTime.message}
+                  </span>
+                )}
               </div>
 
               {/* Upload Image */}
@@ -106,8 +206,55 @@ const CreateMeal = () => {
                   />
                 </div>
               </div>
+              {/* Meal Rating */}
+              <div className="form-control w-full">
+                <label className="label">
+                  <span className="label-text font-semibold text-slate-700">
+                    Rating
+                  </span>
+                </label>
+                <input
+                  type="number"
+                  min="0"
+                  max="5"
+                  defaultValue="0"
+                  className={`input input-bordered w-full focus:outline-none focus:border-orange-500
+                  }`}
+                  {...register("rating")}
+                />
+              </div>
+              {/* Chef ID */}
+              <div className="form-control w-full">
+                <label className="label">
+                  <span className="label-text font-semibold text-slate-700">
+                    Chef ID
+                  </span>
+                </label>
+                <input
+                  type="text"
+                  placeholder="e.g., CHE-12345"
+                  className={`input input-bordered w-full focus:outline-none focus:border-orange-500
+                  }`}
+                  {...register("chefID")}
+                />
+              </div>
             </div>
 
+            {/* Chef Experience */}
+            <div className="form-control w-full mt-5">
+              <label className="label">
+                <span className="label-text font-semibold text-slate-700">
+                  Chef Experience
+                </span>
+              </label>
+              <input
+                type="text"
+                placeholder="e.g., Beef Tehari"
+                className={`input input-bordered w-full focus:outline-none focus:border-orange-500
+                  }`}
+                {...register("chefExperience")}
+              />
+            </div>
             {/* Ingredients */}
             <div className="form-control w-full mt-6">
               <label className="label">
