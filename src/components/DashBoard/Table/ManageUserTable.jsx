@@ -4,11 +4,14 @@ import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../../hooks/useAuth";
 import useAxiosSecure from "../../../hooks/useSecureAxios";
 import toast from "react-hot-toast";
+import { useQueryClient } from "@tanstack/react-query";
 
 const ManageUserTable = () => {
 
     const {user}=useAuth();
     const axiosSecure=useAxiosSecure()
+    const queryClient = useQueryClient();
+
     const {data:usersList}=useQuery({
         queryKey:["usersList",user],
         queryFn: async()=>{
@@ -23,6 +26,7 @@ const ManageUserTable = () => {
             if(res.data.modifiedCount)
             {
                 toast.success("User marked as Fraud successfully.")
+                 queryClient.invalidateQueries(["usersList",user]);
             }
         })
 

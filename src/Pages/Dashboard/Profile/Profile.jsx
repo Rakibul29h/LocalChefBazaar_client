@@ -49,7 +49,7 @@ const Profile = () => {
     <>
       <button
         onClick={()=>sendRequest("admin")}
-        className="btn btn-outline btn-primary w-full  px-10 py-1 rounded-lg text-orange-600 cursor-pointer hover:bg-orange-100 block mb-1"
+        className="btn btn-outline btn-primary w-full   py-1 rounded-lg text-orange-600 cursor-pointer hover:bg-orange-100 block mb-1"
       >
         Be an Admin
       </button>
@@ -60,15 +60,15 @@ const Profile = () => {
     <>
       <button
         onClick={()=>sendRequest("chef")}
-        className="btn btn-outline btn-primary w-full  px-10 py-1 rounded-lg text-orange-600 cursor-pointer hover:bg-orange-100 block mb-2"
+        className="btn btn-outline btn-primary w-full  py-1 rounded-lg text-orange-600 cursor-pointer hover:bg-orange-100 block mb-2"
       >
         Be a Chef
       </button>
     </>
   );
   return (
-    <div className="flex justify-center items-center h-[100vh]">
-      <div className="bg-white shadow-lg rounded-2xl w-full md:w-4/5 lg:w-3/5">
+    <div className="flex justify-center items-center h-screen">
+      <div className="bg-white shadow-lg rounded-2xl w-full md:w-4/5 xl:w-3/5">
         <div
           alt="cover photo"
           className="w-full bg-orange-500 mb-4 rounded-t-lg h-56"
