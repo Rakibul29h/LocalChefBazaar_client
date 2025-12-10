@@ -9,6 +9,7 @@ import useAuth from "../../../hooks/useAuth";
 import useAxiosSecure from "../../../hooks/useSecureAxios";
 import { imageUpload } from "../../../Utils/Utility";
 import ErrorPage from './../../../Pages/ErrorPage/ErrorPage';
+import { useNavigate } from "react-router";
 const CreateMealForm = () => {
   const { user } = useAuth();
   const {
@@ -26,13 +27,13 @@ const CreateMealForm = () => {
     mutationFn: async (payload) =>
       await axiosSecure.post(`/createMeals`, payload),
     onSuccess: (data) => {
-      console.log(data);
-      // show toast
-      toast.success("Meal Added successfully");
+        if(data.data.insertedId)
+             toast.success("Meal Added successfully");
       mutationReset();
       
     }
   });
+  const navigate=useNavigate();
 
   const axiosSecure = useAxiosSecure();
   const onSubmit = async (data) => {
@@ -65,6 +66,7 @@ const CreateMealForm = () => {
     
     await mutateAsync(mealsData);
     reset();
+    navigate("/dashboard/myMeals")
   };
 
   if(isPending) return <LoadingSpinner></LoadingSpinner>

@@ -50,8 +50,7 @@ const logOut = () => {
       if(currentUser)
       {
         await Axios.post('/getToken',{email:currentUser.email},{withCredentials:true})
-      }
-      
+      }      
       setLoading(false)
     })
     return () => {

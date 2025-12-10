@@ -2,13 +2,17 @@ import React from 'react';
 import MealsCard from '../../../components/DashBoard/MealsCard/MealsCard';
 import { useQuery } from '@tanstack/react-query';
 
+
 import useAuth from '../../../hooks/useAuth';
 import useAxiosSecure from '../../../hooks/useSecureAxios';
 import LoadingSpinner from '../../../components/Shared/LoadingSpinner/LoadingSpinner';
 
 const MyMeals = () => {
+
     const {user}=useAuth()
     const axiosSecure=useAxiosSecure();
+
+
     const {data:mealsData,isLoading}=useQuery({
         queryKey:["meals",user],
         queryFn: async ()=>{

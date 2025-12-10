@@ -78,7 +78,7 @@ const UpdateMealForm = ({data,setIsOpen}) => {
       chefEmail,
       rating:Number(rating)
     };
-    console.log(mealsData)
+  
     await mutateAsync(mealsData);
     setIsOpen(false)
   };
