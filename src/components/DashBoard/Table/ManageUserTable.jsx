@@ -12,7 +12,7 @@ const ManageUserTable = () => {
     const axiosSecure=useAxiosSecure()
     const queryClient = useQueryClient();
 
-    const {data:usersList}=useQuery({
+    const {data:usersList=[]}=useQuery({
         queryKey:["usersList",user],
         queryFn: async()=>{
             const result =await axiosSecure("/users")

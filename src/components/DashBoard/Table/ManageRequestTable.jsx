@@ -95,14 +95,14 @@ const ManageRequestTable = () => {
                 <td>
                   <div className="flex gap-4">
                     <button
-                    disabled={user.requestType!=="Pending"}
+                    disabled={user.requestStatus!=="pending"}
                       onClick={() => handleApproved(user)}
                       className="bg-green-400 p-1 btn hover:bg-green-600 disabled:bg-gray-200 disabled:cursor-not-allowed"
                     >
                       <CircleCheckBig />
                     </button>
                     <button
-                    disabled={user.requestType!=="Pending"}
+                    disabled={user.requestStatus!=="pending"}
                       onClick={() => handleRejected(user._id)}
                       className="bg-red-400 p-1 btn hover:bg-red-600 disabled:bg-gray-200 disabled:cursor-not-allowed"
                     >

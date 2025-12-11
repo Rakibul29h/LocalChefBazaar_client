@@ -13,7 +13,7 @@ const MyMeals = () => {
     const axiosSecure=useAxiosSecure();
 
 
-    const {data:mealsData,isLoading}=useQuery({
+    const {data:mealsData=[],isLoading}=useQuery({
         queryKey:["meals",user],
         queryFn: async ()=>{
          const result=   await axiosSecure(`/meals/${user?.email}`)

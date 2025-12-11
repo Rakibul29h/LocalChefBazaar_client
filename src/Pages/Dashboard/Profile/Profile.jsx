@@ -16,7 +16,7 @@ const Profile = () => {
     },
   });
 
-  const { _id: id, email, name, photoURl: image, status } = userData;
+  const { _id: id, email, name, photoURl: image, status,chefID } = userData;
 
   const sendRequest = (type) => {
     const requestData = {
@@ -44,6 +44,7 @@ const Profile = () => {
       });
   };
 
+  
 
   const adminButton = (
     <>
@@ -85,7 +86,18 @@ const Profile = () => {
 
         <div className="mx-10">
           <div>
-            <h2 className="text-3xl font-bold"> {user?.displayName}</h2>
+           <div className="flex  w-full justify-between  item-center">
+             <h2 className="text-3xl font-bold"> {user?.displayName}</h2>
+             {
+              role === "Chef" &&<div className="  bg-gray-200 px-2 py-1 rounded-2xl">
+              <h3>CHEF-ID:</h3>
+              <span className="font-semibold ">
+                 { chefID}
+              </span>
+             
+               </div>
+             }
+           </div>
             <p className="my-2 text-gray-500">{user?.email}</p>
             <div className="flex gap-6">
               <div className="bg-orange-300 text-orange-700 rounded-full text-center px-3 py-1 ">

@@ -1,7 +1,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import LoadingSpinner from './../../../components/Shared/LoadingSpinner/LoadingSpinner';
 
@@ -10,8 +10,17 @@ import useAxiosSecure from "../../../hooks/useSecureAxios";
 import { imageUpload } from "../../../Utils/Utility";
 import ErrorPage from './../../../Pages/ErrorPage/ErrorPage';
 import { useNavigate } from "react-router";
+
 const CreateMealForm = () => {
   const { user } = useAuth();
+  const axiosSecure=useAxiosSecure();
+  const { data: userData = {} ,isLoading} = useQuery({
+    queryKey: ["user", user],
+    queryFn: async () => {
+      const result = await axiosSecure("/user");
+      return result.data;
+    },
+  });
   const {
     register,
     handleSubmit,
@@ -35,7 +44,6 @@ const CreateMealForm = () => {
   });
   const navigate=useNavigate();
 
-  const axiosSecure = useAxiosSecure();
   const onSubmit = async (data) => {
     const {
       foodName,
@@ -71,6 +79,7 @@ const CreateMealForm = () => {
     navigate("/dashboard/myMeals")
   };
 
+  if(isLoading) return <LoadingSpinner></LoadingSpinner>
   if(isPending) return <LoadingSpinner></LoadingSpinner>
   if(isError) return <ErrorPage></ErrorPage>
   return (
@@ -233,7 +242,8 @@ const CreateMealForm = () => {
                 </label>
                 <input
                   type="text"
-                  placeholder="e.g., CHE-12345"
+                  placeholder="e.g., CHEF-1234"
+                  defaultValue={userData.chefID}
                   className={`input input-bordered w-full focus:outline-none focus:border-orange-500
                   }`}
                   {...register("chefID")}
@@ -267,6 +277,7 @@ const CreateMealForm = () => {
               <input
                 type="text"
                 placeholder="Dhaka-1205....."
+                defaultValue={userData.address}
                 className={`input input-bordered w-full focus:outline-none focus:border-orange-500
                   }`}
                 {...register("deliveryArea",{required:"Delivery area is required"})}
