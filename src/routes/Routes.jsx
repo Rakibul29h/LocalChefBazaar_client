@@ -16,6 +16,8 @@ import ManageRequest from "../Pages/Dashboard/Admin/ManageRequest";
 import PlatformStatistics from "../Pages/Dashboard/Admin/PlatformStatistics";
 import CreateMeal from "../Pages/Dashboard/Chef/CreateMeal";
 import MyMeals from "../Pages/Dashboard/Chef/MyMeals";
+import DetailPage from "../Pages/DetailPage/DetailPage";
+import Order from "../Pages/Order/Order";
 
 export const router = createBrowserRouter([
   {
@@ -31,60 +33,71 @@ export const router = createBrowserRouter([
         path: "meals",
         element: <Meals></Meals>,
       },
+      {
+        path: "singleMeal/:id",
+        element: (
+          <PrivateRoute>
+            <DetailPage></DetailPage>,
+          </PrivateRoute>
+        ),
+      },
       { path: "login", element: <LogIn /> },
-  { path: "signup", element: <SignUp /> }
+      { path: "signup", element: <SignUp /> },
+      {
+        path:"orders/:id",
+        element:<PrivateRoute>
+          <Order></Order>
+        </PrivateRoute>
+      },
     ],
   },
   {
     path: "/dashboard",
-    element:
-    <PrivateRoute>
-       <DashBoardLayout></DashBoardLayout>
-    </PrivateRoute>,
-    children:[
+    element: (
+      <PrivateRoute>
+        <DashBoardLayout></DashBoardLayout>
+      </PrivateRoute>
+    ),
+    children: [
       {
-        path:"profile",
-        element:<Profile></Profile>
+        path: "profile",
+        element: <Profile></Profile>,
       },
       {
-        path:"myOrders",
-        element:<MyOrders></MyOrders>
+        path: "myOrders",
+        element: <MyOrders></MyOrders>,
       },
       {
-        path:"myReviews",
-        element:<MyReview></MyReview>
+        path: "myReviews",
+        element: <MyReview></MyReview>,
       },
       {
-        path:"favorite",
-        element:<FavoriteMeals></FavoriteMeals>
+        path: "favorite",
+        element: <FavoriteMeals></FavoriteMeals>,
       },
       {
-        path:"manageUser",
-        element:<ManageUser></ManageUser>
+        path: "manageUser",
+        element: <ManageUser></ManageUser>,
       },
       {
-        path:"manageRequest",
-        element:<ManageRequest></ManageRequest>
-      },{
-        path:"statistics",
-        element:<PlatformStatistics></PlatformStatistics>
+        path: "manageRequest",
+        element: <ManageRequest></ManageRequest>,
       },
       {
-        path:"createMeals",
-        element:<CreateMeal></CreateMeal>
+        path: "statistics",
+        element: <PlatformStatistics></PlatformStatistics>,
       },
       {
-        path:"myMeals",
-        element:<MyMeals></MyMeals>
+        path: "createMeals",
+        element: <CreateMeal></CreateMeal>,
       },
       {
-        path:"myOrders",
-        element:<MyOrders></MyOrders>
-      }
-    ]
-   
+        path: "myMeals",
+        element: <MyMeals></MyMeals>,
+      },
+    ],
   },
-  
+
   {
     path: "*",
     element: <ErrorPage></ErrorPage>,

@@ -72,7 +72,7 @@ const ShowMealCard = ({mealData}) => {
         </div>
         {/* Action Buttons */}
         <div className=' px-5 mb-5 w-full'>
-            <Link className='btn w-full bg-black text-white font-semibold hover:bg-orange-500  hover:text-black w-fulltransition-all duration-300 ease-in-out '>See Details</Link>
+            <Link to={`/singleMeal/${mealData._id}`} className='btn w-full bg-black text-white font-semibold hover:bg-orange-500  hover:text-black w-fulltransition-all duration-300 ease-in-out '>See Details</Link>
         </div>
       </div>
     </div>
