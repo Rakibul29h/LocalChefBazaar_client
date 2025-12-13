@@ -1,12 +1,57 @@
-import { CircleCheckBig, CircleX } from "lucide-react";
+import { useMutation } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
+import { CircleCheckBig, CircleX, Truck } from "lucide-react";
 import React from "react";
+import useAxiosSecure from "../../../hooks/useSecureAxios";
+import toast from "react-hot-toast";
+import useAuth from "../../../hooks/useAuth";
+import ErrorPage from "../../../Pages/ErrorPage/ErrorPage";
+import LoadingSpinner from "../../Shared/LoadingSpinner/LoadingSpinner";
 
-const OrderRequestCard = ({orderInfo}) => {
-  
+const OrderRequestCard = ({ orderInfo }) => {
+  const axiosSecure = useAxiosSecure();
+  const {
+    orderStatus,
+    price,
+    quantity,
+    userAddress,
+    userEmail,
+    orderTime,
+    mealName,
+    chefID,
+  } = orderInfo;
 
-  const {orderStatus,price,quantity,userAddress,userEmail,orderTime,cost,mealName}=orderInfo
+  const { user } = useAuth();
+
+
+  const queryClient = useQueryClient();
+  const {
+    isPending,
+    isError,
+    mutateAsync,
+    reset: mutationReset,
+  } = useMutation({
+    mutationFn: async (payload) =>
+      await axiosSecure.patch(
+        `/chefOrder?status=${payload}&id=${orderInfo._id}`
+      ),
+    onSuccess: (data) => {
+      if (data.data.modifiedCount) {
+        queryClient.invalidateQueries("orders", user, chefID);
+        toast.success(`Order ${data.data.orderStatus} successfully` )
+
+      }
+      mutationReset();
+    },
+  });
+
+  const handleOrder = async (status) => {
+    await mutateAsync(status);
+  };
+  if(isPending) return <LoadingSpinner></LoadingSpinner>
+  if(isError) return <ErrorPage></ErrorPage>
   return (
-    <div className="w-full bg-white  shadow-sm max-w-5xl mx-auto p-5 flex justify-between items-center rounded2xl">
+    <div className="w-full bg-white rounded-2xl  shadow-lg max-w-5xl mx-auto p-5 flex justify-between items-center rounded2xl">
       {/* Content  */}
       <div>
         {/* title and status */}
@@ -15,13 +60,14 @@ const OrderRequestCard = ({orderInfo}) => {
           <div
             className={`px-2 py-1 rounded-md  ${
               orderStatus === "pending"
-                ? "bg-orange-100 text-orange-600 "
+                ? "bg-orange-100 text-orange-600 border-orange-600"
                 : orderStatus === "accepted"
-                ? "bg-blue-100 text-blue-700"
-                : "bg-green-100 text-green-300 "
+                ? "bg-blue-100 text-blue-700 border-blue-600":
+                orderStatus==="cancelled"?"bg-red-100 text-red-700 border-red-600"
+                : "bg-green-100 text-green-700 border-green-600"
             }`}
           >
-           {orderStatus}
+            {orderStatus}
           </div>
         </div>
         {/* Details part */}
@@ -49,25 +95,55 @@ const OrderRequestCard = ({orderInfo}) => {
           </div>
           {
             // Payment status
+
+            orderInfo?.paymentStatus &&   <div className="text-sm">
+            <span className="text-gray-500">Payment Status: </span>
+            <span className="text-gray-900 ">{orderInfo?.paymentStatus}</span>
+          </div>
           }
         </div>
       </div>
       {/* Action button  */}
 
-      <div className="flex gap-5 ">
-        <button className="bg-green-400 flex px-3 py-1 btn hover:bg-green-600 disabled:bg-gray-200 disabled:cursor-not-allowed">
-          <span>
-            {" "}
-            <CircleCheckBig size={20} />{" "}
-          </span>
-          <span>Accept</span>
-        </button>
-        <button className="bg-red-500 flex px-3 py-1 btn hover:bg-red-600 disabled:bg-gray-200 disabled:cursor-not-allowed">
-          <span>
-            <CircleX size={20 } />
-          </span>
-          <span>Cancel</span>
-        </button>
+      <div>
+        {orderStatus === "accepted" ? (
+          <div>
+            <button
+              disabled={orderStatus === "delivered"}
+              className="bg-orange-500 flex px-3 text-white py-1 btn ]hover:bg-orange-600 disabled:bg-gray-200 disabled:cursor-not-allowed"
+            >
+              <span>
+                {" "}
+                <Truck size={20} />{" "}
+              </span>
+              <span>Deliver</span>
+            </button>
+          </div>
+        ) : (
+          <div className="flex gap-5 ">
+            <button
+              disabled={orderStatus === "cancelled"}
+              onClick={() => handleOrder("accepted")}
+              className="bg-green-400 flex px-3 py-1 btn hover:bg-green-600 disabled:bg-gray-200 disabled:cursor-not-allowed"
+            >
+              <span>
+                {" "}
+                <CircleCheckBig size={20} />{" "}
+              </span>
+              <span>Accept</span>
+            </button>
+            <button
+              disabled={orderStatus === "cancelled"}
+              onClick={() => handleOrder("cancelled")}
+              className="bg-red-500 flex px-3 py-1 btn hover:bg-red-600 disabled:bg-gray-200 disabled:cursor-not-allowed"
+            >
+              <span>
+                <CircleX size={20} />
+              </span>
+              <span>Cancel</span>
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
