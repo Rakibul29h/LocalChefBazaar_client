@@ -29,7 +29,9 @@ const OrderCard = ({ order }) => {
 
       }
       axiosSecure.post("/create-checkout-session",paymentInfo)
-      .then(res=>console.log(res.data))
+      .then(res=>{
+        window.location.href=res.data.url
+      })
     }
   return (
     <div className=" flex flex-col justify-between  min-w-60 w-full bg-white rounded-2xl p-5 shadow-sm border border-gray-100 ">
@@ -80,14 +82,14 @@ const OrderCard = ({ order }) => {
 
       {/* Status Footer */}
 
-      {orderStatus === "accepted" && (
+      {order?.paymentStatus === "pending"  && (
         <div onClick={handlePayment} className="bg-green-600 hover:bg-green-700 text-white font-medium text-center py-3 rounded-xl text-sm">
           Pay Now
         </div>
       )}
       {order?.paymentStatus === "paid" && (
         <div className="bg-green-50 text-green-800 font-medium text-center py-3 rounded-xl text-sm">
-          Paid Successfully
+          Payment Successful
         </div>
       )}
     </div>

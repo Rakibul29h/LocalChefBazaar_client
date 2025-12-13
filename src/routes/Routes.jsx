@@ -19,6 +19,7 @@ import MyMeals from "../Pages/Dashboard/Chef/MyMeals";
 import DetailPage from "../Pages/DetailPage/DetailPage";
 import Order from "../Pages/Order/Order";
 import OrderRequest from "../Pages/Dashboard/Chef/OrderRequest";
+import SuccessPayment from "../Pages/Dashboard/Payment/successPayment";
 
 export const router = createBrowserRouter([
   {
@@ -60,6 +61,10 @@ export const router = createBrowserRouter([
       </PrivateRoute>
     ),
     children: [
+      {
+        path:"success",
+        element:<SuccessPayment></SuccessPayment>
+      },
       {
         path: "profile",
         element: <Profile></Profile>,
