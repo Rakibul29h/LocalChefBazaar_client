@@ -28,6 +28,7 @@ const OrderForm = ({mealData}) => {
     price
   } = mealData;
  
+  console.log(mealData)
   const axiosSecure=useAxiosSecure();
   const onSubmit = async (data) => {
 
@@ -55,6 +56,7 @@ const OrderForm = ({mealData}) => {
         userName,
         cost,
         foodId:mealData._id,
+        chefName:mealData.chefName,
         orderTime:new Date()
 
     }

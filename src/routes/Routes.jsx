@@ -18,6 +18,7 @@ import CreateMeal from "../Pages/Dashboard/Chef/CreateMeal";
 import MyMeals from "../Pages/Dashboard/Chef/MyMeals";
 import DetailPage from "../Pages/DetailPage/DetailPage";
 import Order from "../Pages/Order/Order";
+import OrderRequest from "../Pages/Dashboard/Chef/OrderRequest";
 
 export const router = createBrowserRouter([
   {
@@ -90,6 +91,10 @@ export const router = createBrowserRouter([
       {
         path: "createMeals",
         element: <CreateMeal></CreateMeal>,
+      },
+      {
+        path:"orders",
+        element:<OrderRequest></OrderRequest>
       },
       {
         path: "myMeals",

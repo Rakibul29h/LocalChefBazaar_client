@@ -20,7 +20,7 @@ const ChefMenu = () => {
              <MenuItem
                 icon={FaRegRectangleList}
                 label='Orders'
-                address='/dashboard/myOrders'
+                address='/dashboard/orders'
               />
         </div>
     );
