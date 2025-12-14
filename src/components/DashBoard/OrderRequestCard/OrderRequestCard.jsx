@@ -98,7 +98,7 @@ const OrderRequestCard = ({ orderInfo }) => {
 
             orderInfo?.paymentStatus &&   <div className="text-sm">
             <span className="text-gray-500">Payment Status: </span>
-            <span className="text-gray-900 ">{orderInfo?.paymentStatus}</span>
+            <span className="text-gray-900 font-bold ">{orderInfo?.paymentStatus}</span>
           </div>
           }
         </div>

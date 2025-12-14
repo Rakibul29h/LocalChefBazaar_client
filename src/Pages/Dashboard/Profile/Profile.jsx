@@ -3,12 +3,13 @@ import useAuth from "../../../hooks/useAuth";
 import useRole from "../../../hooks/useRole";
 import useAxiosSecure from "../../../hooks/useSecureAxios";
 import toast from "react-hot-toast";
+import LoadingSpinner from './../../../components/Shared/LoadingSpinner/LoadingSpinner';
 
 const Profile = () => {
   const { user } = useAuth();
   const [role] = useRole();
   const secureAxios = useAxiosSecure();
-  const { data: userData = {} } = useQuery({
+  const { data: userData = {},isLoading } = useQuery({
     queryKey: ["user", user],
     queryFn: async () => {
       const result = await secureAxios("/user");
@@ -45,7 +46,7 @@ const Profile = () => {
   };
 
   
-
+  if(isLoading) return <LoadingSpinner></LoadingSpinner>
   const adminButton = (
     <>
       <button

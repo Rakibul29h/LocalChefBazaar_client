@@ -62,6 +62,10 @@ export const router = createBrowserRouter([
     ),
     children: [
       {
+        index:true,
+        element:<Profile></Profile>
+      },
+      {
         path:"success",
         element:<SuccessPayment></SuccessPayment>
       },
