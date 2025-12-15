@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../hooks/useAuth";
 import LoadingSpinner from "../../components/Shared/LoadingSpinner/LoadingSpinner";
 import Review from "./Review";
+import toast from "react-hot-toast";
 
 // Main App Component
 const DetailPage = () => {
@@ -39,6 +40,24 @@ const DetailPage = () => {
   const nevigate=useNavigate();
   const handleBack=()=>{
     nevigate("/meals")
+  }
+
+  const addToFavorite=()=>{
+    const data={
+      userEmail:user?.email,
+      mealId:id,
+      mealName:foodName,
+      chefID:chefID,
+      chefName:chefName,
+      price:price,     
+    }
+    axiosSecure.post("/addToFavorite",data)
+    .then(res=>{
+     if(res.data.insertedId)
+     {
+      toast.success("Meal added to favorites successfully.")
+     }
+    })
   }
   if(isLoading) return <LoadingSpinner></LoadingSpinner>
   return (
@@ -170,9 +189,14 @@ const DetailPage = () => {
               <span className="text-3xl font-bold text-orange-500">${price}</span>
             </div>
 
-            <Link to={`/orders/${id}`}className="bg-red-50 hover:bg-red-100 text-red-500 px-6 py-3 rounded-xl font-medium text-sm transition-colors duration-200">
+           <div className="flex flex-col items-center sm:flex-row gap-5">
+             <button onClick={addToFavorite} className="btn btn-outline hover:bg-red-100 hover:border-red-500 text-red-500 px-6 py-3 rounded-xl font-medium text-sm transition-colors duration-200">
+            Add to Favorite
+            </button>
+            <Link to={`/orders/${id}`}className="bg-red-50 w-full border-1 border-orange-500 hover:bg-red-100 text-red-500 px-6 py-2 rounded-xl font-medium text-sm transition-colors duration-200">
              Order Now
             </Link>
+           </div>
           </div>
             </div>
           ) : (
