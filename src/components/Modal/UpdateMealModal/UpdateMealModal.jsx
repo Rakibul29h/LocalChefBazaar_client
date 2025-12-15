@@ -5,10 +5,6 @@ import UpdateMealForm from '../../DashBoard/Form/UpdateMealForm'
 
 export default function UpdateMealModal({isOpen,setIsOpen,data}) {
   
-    
-
-
-
 
   return (
     <>

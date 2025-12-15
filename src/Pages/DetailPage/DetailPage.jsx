@@ -177,7 +177,7 @@ const DetailPage = () => {
             </div>
           ) : (
             <div className=" animate-in fade-in zoom-in-95 duration-300">
-              <Review></Review>
+              <Review id={id} ></Review>
             </div>
           )}
 

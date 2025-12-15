@@ -95,9 +95,7 @@ const SuccessPayment = () => {
                         minute: "2-digit",
                         hour12: true,
                       })}
-                      {
-                        
-                      }
+                      
                     </span>
                     <span>
                       {"  "}

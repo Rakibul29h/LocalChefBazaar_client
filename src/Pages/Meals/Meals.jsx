@@ -4,6 +4,7 @@ import useAuth from "../../hooks/useAuth";
 import useAxiosSecure from "../../hooks/useSecureAxios";
 import { useQuery } from "@tanstack/react-query";
 import LoadingSpinner from "../../components/Shared/LoadingSpinner/LoadingSpinner";
+import Container from "../../components/Shared/Container/Container";
 
 const Meals = () => {
   const { user } = useAuth();
@@ -25,7 +26,7 @@ const Meals = () => {
 
   if (isLoading) return <LoadingSpinner></LoadingSpinner>;
   return (
-    <div>
+    <Container>
       <div className="mb-10 flex justify-between mt-5 ">
         <h2 className="text-2xl font-semibold"> All Meals</h2>
         <fieldset className="fieldset focus:outline-0">
@@ -43,7 +44,7 @@ const Meals = () => {
           <ShowMealCard key={meal._id} mealData={meal}></ShowMealCard>
         ))}
       </div>
-    </div>
+    </Container>
   );
 };
 
