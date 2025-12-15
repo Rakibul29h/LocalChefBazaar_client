@@ -7,7 +7,7 @@ import useAuth from "./../../hooks/useAuth";
 import useAxiosSecure from "./../../hooks/useSecureAxios";
 import LoadingSpinner from "../../components/Shared/LoadingSpinner/LoadingSpinner";
 
-const Review = ({ id }) => {
+const Review = ({ id,name }) => {
   const [isOpen, setIsOpen] = useState(false);
   const handleReview = () => {
     setIsOpen(true);
@@ -55,14 +55,7 @@ const Review = ({ id }) => {
                     {review?.reviewerName}
                   </h3>
                   <div className=" text-sm text-gray-500">
-                    <span className="">
-                    {" "}
-                    {new Date(review.date).toLocaleTimeString("en-US", {
-                      hour: "numeric",
-                      minute: "2-digit",
-                      hour12: true,
-                    })}
-                  </span>{", "}
+                   
                   <span>
                     {"  "}
                     {new Date(review.date).toDateString("En-us").slice(4)}
@@ -91,7 +84,7 @@ const Review = ({ id }) => {
           </div>
         ))}
       </div>
-      <ReviewModal isOpen={isOpen} setIsOpen={setIsOpen} id={id}></ReviewModal>
+      <ReviewModal isOpen={isOpen} setIsOpen={setIsOpen} name={name} id={id}></ReviewModal>
     </div>
   );
 };

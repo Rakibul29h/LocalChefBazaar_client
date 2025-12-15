@@ -8,7 +8,7 @@ import useAxiosSecure from "../../../hooks/useSecureAxios";
 import useAuth from "../../../hooks/useAuth";
 
 const MealsCard = ({ mealData }) => {
-  const {user}=useAuth()
+  const { user } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const {
     foodName: title,
@@ -19,44 +19,36 @@ const MealsCard = ({ mealData }) => {
     ingredients,
     chefID,
   } = mealData;
-const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
 
-  const axiosSecure=useAxiosSecure()
-  const deleteHandler=async()=>{
-   
-Swal.fire({
-  title: "Are you sure?",
-  text: "You won't be able to revert this!",
-  icon: "warning",
-  showCancelButton: true,
-  confirmButtonColor: "#3085d6",
-  cancelButtonColor: "#d33",
-  confirmButtonText: "Yes, delete it!"
-}).then((result) => {
-  if (result.isConfirmed) {
-    const id = mealData._id;
-    axiosSecure.delete(`/meals/${id}`)
-    .then(res=>
-    {
-      if(res.data.deletedCount)
-      {
-         
+  const axiosSecure = useAxiosSecure();
+  const deleteHandler = async () => {
     Swal.fire({
-      title: "Deleted!",
-      text: "Your file has been deleted.",
-      icon: "success"
-    });
-      queryClient.invalidateQueries({
-    queryKey: ["meals",user ]
-  });
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const id = mealData._id;
+        axiosSecure.delete(`/meals/${id}`).then((res) => {
+          if (res.data.deletedCount) {
+            Swal.fire({
+              title: "Deleted!",
+              text: "Your file has been deleted.",
+              icon: "success",
+            });
+            queryClient.invalidateQueries({
+              queryKey: ["meals", user],
+            });
+          }
+        });
       }
-    }
-    )
- 
-  }
-});
-      
-  }
+    });
+  };
   return (
     <div className="w-full max-w-sm bg-white rounded-3xl shadow-lg overflow-hidden border border-gray-100 font-sans mx-auto group cursor-pointer">
       <div className="flex flex-col justify-between h-full">
@@ -79,7 +71,6 @@ Swal.fire({
           {/* Content Container */}
           <div className="p-5">
             {/* Title */}
-            <div></div>
             <div className="flex justify-between items-center">
               <h3 className="text-xl font-bold text-slate-900 mb-2">{title}</h3>
               <p className="bg-orange-200 px-2 rounded-full text-center py-1 font-semibold text-gray-500">
@@ -117,7 +108,10 @@ Swal.fire({
           >
             Update
           </button>
-          <button onClick={deleteHandler} className="flex-1 bg-red-50 hover:bg-red-100 text-red-500 text-sm font-semibold py-2.5 rounded-xl transition-colors duration-200">
+          <button
+            onClick={deleteHandler}
+            className="flex-1 bg-red-50 hover:bg-red-100 text-red-500 text-sm font-semibold py-2.5 rounded-xl transition-colors duration-200"
+          >
             Delete
           </button>
           <UpdateMealModal
