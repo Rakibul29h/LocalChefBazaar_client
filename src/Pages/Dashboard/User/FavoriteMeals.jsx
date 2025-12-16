@@ -1,11 +1,86 @@
-import React from 'react';
+import React from "react";
+import useAuth from "../../../hooks/useAuth";
+import useAxiosSecure from "../../../hooks/useSecureAxios";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { Trash2 } from "lucide-react";
+import Swal from "sweetalert2";
 
 const FavoriteMeals = () => {
-    return (
-        <div>
+
+    const {user}=useAuth();
+    const axiosSecure=useAxiosSecure()
+    const queryClient = useQueryClient();
+
+    const {data:favoriteMeals=[]}=useQuery({
+        queryKey:["favoriteMeals",user],
+        queryFn: async()=>{
+            const result =await axiosSecure(`/myFavorite?email=${user?.email}`);
+            return result.data;
+        }
+    })
+   const handleDelete = (id)=>{
+     Swal.fire({
+           title: "Are you sure?",
+           text: "You won't be able to revert this!",
+           icon: "warning",
+           showCancelButton: true,
+           confirmButtonColor: "#3085d6",
+           cancelButtonColor: "#d33",
+           confirmButtonText: "Yes, delete it!",
+         }).then((result) => {
+           if (result.isConfirmed) {
+             axiosSecure.delete(`/myFavorite/${id}`).then((res) => {
+               if (res.data.deletedCount) {
+                 Swal.fire({
+                   title: "Deleted!",
+                   text: "Meal removed from your favorite!",
+                   icon: "success",
+                 });
+                 queryClient.invalidateQueries({
+                   queryKey:["favoriteMeals",user],
+                 });
+               }
+             });
+           }
+         });
+   }
+  return (
+    <div>
+      <div className="mb-10 mt-5 mx-5">
+        <h2 className="text-2xl font-semibold">  Favorite Meals</h2>     
+      </div>
+        <div className="overflow-x-auto">
+        <table className="table ">
+          {/* head */}
+          <thead>
+            <tr className="bg-base-300">
+              <th>Meals</th>
+              <th>Chef Name</th>
+              <th>Price</th>
+              <th>Date</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {/* row 1 */}
+
+            {
+                favoriteMeals.map(meal=><tr key={meal._id} className="bg-gray-50 hover:bg-orange-50">
+              <td>
+                <h2 className=" font-semibold ">{meal.mealName}</h2>
+              </td>
+              <td>{meal?.chefName}</td>
+              <td className="font-semibold">{meal?.price}$</td>
+                <td>{new Date(meal.addedAt).toDateString("En-us").slice(4)}</td>
+             <td >  <span onClick={()=>handleDelete(meal._id)} className="hover:cursor-pointer"><Trash2 color="red" /></span> </td>
+            </tr>)
+            } 
             
-        </div>
-    );
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
 };
 
 export default FavoriteMeals;
