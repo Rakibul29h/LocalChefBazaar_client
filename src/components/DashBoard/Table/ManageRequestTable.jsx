@@ -5,11 +5,12 @@ import useAuth from "../../../hooks/useAuth";
 import useAxiosSecure from "../../../hooks/useSecureAxios";
 import toast from "react-hot-toast";
 import { useQueryClient } from "@tanstack/react-query";
+import LoadingSpinner from './../../Shared/LoadingSpinner/LoadingSpinner';
 
 const ManageRequestTable = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
-  const { data: usersList = [] } = useQuery({
+  const { data: usersList = [],isLoading } = useQuery({
     queryKey: ["usersList", user],
     queryFn: async () => {
       const result = await axiosSecure("/request");
@@ -39,6 +40,7 @@ const ManageRequestTable = () => {
       }
     });
   };
+  if(isLoading) return <LoadingSpinner></LoadingSpinner>
   return (
     <div>
       <div className="overflow-x-auto">
@@ -100,7 +102,7 @@ const ManageRequestTable = () => {
                       className="bg-green-400 p-1 btn hover:bg-green-600 disabled:bg-gray-200 disabled:cursor-not-allowed"
                     >
                       <CircleCheckBig />
-                    </button>
+                    </button>   
                     <button
                     disabled={user.requestStatus!=="pending"}
                       onClick={() => handleRejected(user._id)}

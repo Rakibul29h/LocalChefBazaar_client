@@ -5,6 +5,7 @@ import useAuth from "../../../hooks/useAuth";
 import useAxiosSecure from "../../../hooks/useSecureAxios";
 import toast from "react-hot-toast";
 import { useQueryClient } from "@tanstack/react-query";
+import LoadingSpinner from "../../Shared/LoadingSpinner/LoadingSpinner";
 
 const ManageUserTable = () => {
 
@@ -12,7 +13,7 @@ const ManageUserTable = () => {
     const axiosSecure=useAxiosSecure()
     const queryClient = useQueryClient();
 
-    const {data:usersList=[]}=useQuery({
+    const {data:usersList=[],isLoading}=useQuery({
         queryKey:["usersList",user],
         queryFn: async()=>{
             const result =await axiosSecure("/users")
@@ -31,6 +32,7 @@ const ManageUserTable = () => {
         })
 
     }
+    if(isLoading) return <LoadingSpinner></LoadingSpinner>
   return (
     <div>
       <div className="overflow-x-auto">
