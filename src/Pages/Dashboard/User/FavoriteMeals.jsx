@@ -4,6 +4,7 @@ import useAxiosSecure from "../../../hooks/useSecureAxios";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Trash2 } from "lucide-react";
 import Swal from "sweetalert2";
+import { Helmet } from "react-helmet-async";
 
 const FavoriteMeals = () => {
 
@@ -46,6 +47,9 @@ const FavoriteMeals = () => {
    }
   return (
     <div>
+            <Helmet>
+              <title>Favorite Meals</title>
+            </Helmet>
       <div className="mb-10 mt-5 mx-5">
         <h2 className="text-2xl font-semibold">  Favorite Meals</h2>     
       </div>

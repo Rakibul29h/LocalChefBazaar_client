@@ -6,6 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 import useAuth from '../../../hooks/useAuth';
 import useAxiosSecure from '../../../hooks/useSecureAxios';
 import LoadingSpinner from '../../../components/Shared/LoadingSpinner/LoadingSpinner';
+import { Helmet } from 'react-helmet-async';
 
 const MyMeals = () => {
 
@@ -23,6 +24,9 @@ const MyMeals = () => {
     if(isLoading) return <LoadingSpinner></LoadingSpinner>
     return (
         <div>
+                  <Helmet>
+        <title>My Meal</title>
+      </Helmet>
             <div className='mb-10 mt-5 mx-5'>
                 <h2 className='text-2xl font-semibold'> My Meals</h2>
                 <p className='text-gray-500'>Manage the meals you offer</p>

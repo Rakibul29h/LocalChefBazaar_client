@@ -7,6 +7,7 @@ import useAuth from "../../hooks/useAuth";
 import LoadingSpinner from "../../components/Shared/LoadingSpinner/LoadingSpinner";
 import Review from "./Review";
 import toast from "react-hot-toast";
+import { Helmet } from "react-helmet-async";
 
 // Main App Component
 const DetailPage = () => {
@@ -62,6 +63,9 @@ const DetailPage = () => {
   if(isLoading) return <LoadingSpinner></LoadingSpinner>
   return (
     <div className="min-h-screen bg-gray-50 p-4 md:p-8 font-sans">
+            <Helmet>
+        <title>{foodName}</title>
+      </Helmet>
       {/* Top Navigation */}
       <div className="max-w-3xl mx-auto mb-4">
         <button onClick={handleBack} className="btn btn-ghost btn-sm gap-2 text-gray-600 hover:bg-transparent pl-0 hover:text-gray-900 normal-case text-sm font-normal">

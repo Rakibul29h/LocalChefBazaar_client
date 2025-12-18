@@ -5,6 +5,7 @@ import useAxiosSecure from '../../hooks/useSecureAxios';
 import { useQuery } from '@tanstack/react-query';
 import LoadingSpinner from '../../components/Shared/LoadingSpinner/LoadingSpinner';
 import OrderForm from '../../components/DashBoard/Form/OrderForm';
+import { Helmet } from 'react-helmet-async';
 
 const Order = () => {
     
@@ -28,6 +29,9 @@ const Order = () => {
 
     return (
         <div className="min-h-screen bg-base-200 flex items-center justify-center p-4">
+                <Helmet>
+        <title>Order-{mealsData.foodName}</title>
+      </Helmet>
       <div className="w-full max-w-4xl bg-white rounded-xl shadow-xl p-8 md:p-12">
         {/* Header Section */}
         <div className="mx-8">

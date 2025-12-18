@@ -3,6 +3,7 @@ import ShowMealCard from "../../components/DashBoard/ShowMealCard/ShowMealCard";
 import LoadingSpinner from "../../components/Shared/LoadingSpinner/LoadingSpinner";
 import Container from "../../components/Shared/Container/Container";
 import MealsContainer from "./MealsContainer";
+import { Helmet } from "react-helmet-async";
 
 
 const Meals = () => {
@@ -22,6 +23,9 @@ const Meals = () => {
 
   return (
     <Container>
+      <Helmet>
+        <title>All Meals {search}</title>
+      </Helmet>
       <div className="w-full px-4 my-5">
         <div className="mx-auto  rounded-2xl bg-linear-to-r from-purple-500 via-violet-500 to-indigo-500 p-6 shadow-xl">
           <h2 className="flex items-center gap-2 text-2xl font-bold text-white">

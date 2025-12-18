@@ -5,6 +5,7 @@ import useAuth from "../../hooks/useAuth";
 import { TbFidgetSpinner } from "react-icons/tb";
 import LoadingSpinner from "../../components/Shared/LoadingSpinner/LoadingSpinner";
 import toast from "react-hot-toast";
+import { Helmet } from "react-helmet-async";
 
 const LogIn = () => {
   const {
@@ -37,6 +38,9 @@ const LogIn = () => {
   };
   return (
     <div className="flex justify-center items-center min-h-screen bg-white">
+            <Helmet>
+              <title>Log In</title>
+            </Helmet>
       <div className="flex flex-col max-w-md md:min-w-[400px] p-6 rounded-md sm:p-10 bg-gray-50 text-gray-900">
         <div className="mb-8 text-center">
           <h1 className="my-3 text-4xl font-bold">Log In</h1>

@@ -22,6 +22,9 @@ const OrderRequest = () => {
    
   return (
     <div>
+            <Helmet>
+        <title>Order Request</title>
+      </Helmet>
       <div className="mb-10 mt-5 mx-5">
         <h2 className="text-2xl font-semibold"> Order Requests</h2>
         <p className="text-gray-500">Manage incoming orders from customers</p>

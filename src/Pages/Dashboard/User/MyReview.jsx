@@ -7,6 +7,7 @@ import useAuth from '../../../hooks/useAuth';
 import useAxiosSecure from '../../../hooks/useSecureAxios';
 import LoadingSpinner from '../../../components/Shared/LoadingSpinner/LoadingSpinner';
 import MyReviewCard from '../../../components/DashBoard/MyReviewCard/MyReviewCard';
+import { Helmet } from 'react-helmet-async';
 
 const MyReview = () => {
 
@@ -21,10 +22,12 @@ const MyReview = () => {
          return result.data;
         }
     })
-    console.log(myReviews)
     if(isLoading) return <LoadingSpinner></LoadingSpinner>
     return (
         <div>
+                  <Helmet>
+                    <title>My Review</title>
+                  </Helmet>
             <div className='mb-10 mt-5 mx-5'>
                 <h2 className='text-2xl font-semibold'> My Reviews</h2>
                 <p className='text-gray-500'>Manage the meals you offer</p>

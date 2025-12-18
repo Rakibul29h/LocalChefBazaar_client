@@ -29,13 +29,13 @@ const MealsContainer = ({sort,search}) => {
 if(isLoading) return <LoadingSpinner></LoadingSpinner>
     return (
           <div>
-        <div className="min-h-[70vh]">
+       
           <div className="grid  grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 w-full">
             {mealsData.map((meal) => (
               <ShowMealCard key={meal._id} mealData={meal}></ShowMealCard>
             ))}
           </div>
-        </div>
+       
 
         <div className="flex justify-center gap-5 flex-wrap my-10">
           <button 

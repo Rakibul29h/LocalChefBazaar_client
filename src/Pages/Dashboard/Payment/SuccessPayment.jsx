@@ -11,6 +11,7 @@ import {
   Home,
   LayoutDashboard,
 } from "lucide-react";
+import { Helmet } from "react-helmet-async";
 
 const SuccessPayment = () => {
   const [copied, setCopied] = useState(false);
@@ -31,6 +32,9 @@ const SuccessPayment = () => {
   return (
     <div>
       <div className="min-h-screen  flex items-center justify-center p-4 font-sans">
+              <Helmet>
+        <title>Payment-success</title>
+      </Helmet>
         {/* Main Card */}
         <div
           className={`card bg-base-100 w-full max-w-md shadow-xl transition-all duration-700 transform  'translate-y-0 opacity-100'`}

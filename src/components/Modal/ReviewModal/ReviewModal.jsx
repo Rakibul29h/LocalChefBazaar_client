@@ -34,6 +34,7 @@ const axiosSecure=useAxiosSecure();
           reset();
       }
        queryClient.invalidateQueries( ["review", user]);
+       queryClient.invalidateQueries(["meals", user, id]);
       
       mutationReset();
       

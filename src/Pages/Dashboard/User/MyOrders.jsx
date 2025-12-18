@@ -4,6 +4,7 @@ import useAxiosSecure from "../../../hooks/useSecureAxios";
 import { useQuery } from "@tanstack/react-query";
 import LoadingSpinner from "../../../components/Shared/LoadingSpinner/LoadingSpinner";
 import OrderCard from "../../../components/DashBoard/OrderCard/OrderCard";
+import { Helmet } from "react-helmet-async";
 
 const MyOrders = () => {
   const { user } = useAuth();
@@ -20,6 +21,9 @@ const MyOrders = () => {
   if (isLoading) return <LoadingSpinner></LoadingSpinner>;
   return (
     <div>
+            <Helmet>
+              <title>My Orders</title>
+            </Helmet>
       <div className="mb-10 mt-5 mx-5">
         <h2 className="text-2xl font-semibold"> My Orders</h2>
         <p className="text-gray-500">Track your delicious deliveries</p>

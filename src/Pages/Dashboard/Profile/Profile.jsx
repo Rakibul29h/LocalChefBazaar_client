@@ -3,13 +3,14 @@ import useAuth from "../../../hooks/useAuth";
 import useRole from "../../../hooks/useRole";
 import useAxiosSecure from "../../../hooks/useSecureAxios";
 import toast from "react-hot-toast";
-import LoadingSpinner from './../../../components/Shared/LoadingSpinner/LoadingSpinner';
+import LoadingSpinner from "./../../../components/Shared/LoadingSpinner/LoadingSpinner";
+import { Helmet } from "react-helmet-async";
 
 const Profile = () => {
   const { user } = useAuth();
   const [role] = useRole();
   const secureAxios = useAxiosSecure();
-  const { data: userData = {},isLoading } = useQuery({
+  const { data: userData = {}, isLoading } = useQuery({
     queryKey: ["user", user],
     queryFn: async () => {
       const result = await secureAxios("/user");
@@ -17,7 +18,7 @@ const Profile = () => {
     },
   });
 
-  const { _id: id, email, name, photoURl: image, status,chefID } = userData;
+  const { _id: id, email, name, photoURl: image, status, chefID } = userData;
 
   const sendRequest = (type) => {
     const requestData = {
@@ -26,42 +27,42 @@ const Profile = () => {
       name,
       image,
       status,
-      requestType:type,
+      requestType: type,
       requestTime: new Date(),
     };
 
-    secureAxios
-      .post("/beAdminOrChef", requestData)
-      .then((res) => 
-      {
-  
-        if(res.data.insertedId)
-        {
-          toast.success("Your request has been successfully sent to the admin. Kindly wait while your access is evaluated and approved.")
-        }else if(res.data.message==="already sent")
-        {
-          toast.error("Your request has already been sent to the admin. Please wait for approval.")
-        }
-      });
+    secureAxios.post("/beAdminOrChef", requestData).then((res) => {
+      if (res.data.insertedId) {
+        toast.success(
+          "Your request has been successfully sent to the admin. Kindly wait while your access is evaluated and approved."
+        );
+      } else if (res.data.message === "already sent") {
+        toast.error(
+          "Your request has already been sent to the admin. Please wait for approval."
+        );
+      }
+    });
   };
 
-  
-  if(isLoading) return <LoadingSpinner></LoadingSpinner>
+  if (isLoading) return <LoadingSpinner></LoadingSpinner>;
   const adminButton = (
-    <>
+    <div>
+      <Helmet>
+        <title>Profile</title>
+      </Helmet>
       <button
-        onClick={()=>sendRequest("admin")}
+        onClick={() => sendRequest("admin")}
         className="btn btn-outline btn-primary w-full   py-1 rounded-lg text-orange-600 cursor-pointer hover:bg-orange-100 block mb-1"
       >
         Be an Admin
       </button>
-    </>
+    </div>
   );
 
   const chefButton = (
     <>
       <button
-        onClick={()=>sendRequest("chef")}
+        onClick={() => sendRequest("chef")}
         className="btn btn-outline btn-primary w-full  py-1 rounded-lg text-orange-600 cursor-pointer hover:bg-orange-100 block mb-2"
       >
         Be a Chef
@@ -87,18 +88,15 @@ const Profile = () => {
 
         <div className="mx-10">
           <div>
-           <div className="flex  w-full justify-between  item-center">
-             <h2 className="text-3xl font-bold"> {user?.displayName}</h2>
-             {
-              role === "Chef" &&<div className="  bg-gray-200 px-2 py-1 rounded-2xl">
-              <h3>CHEF-ID:</h3>
-              <span className="font-semibold ">
-                 { chefID}
-              </span>
-             
-               </div>
-             }
-           </div>
+            <div className="flex  w-full justify-between  item-center">
+              <h2 className="text-3xl font-bold"> {user?.displayName}</h2>
+              {role === "Chef" && (
+                <div className="  bg-gray-200 px-2 py-1 rounded-2xl">
+                  <h3>CHEF-ID:</h3>
+                  <span className="font-semibold ">{chefID}</span>
+                </div>
+              )}
+            </div>
             <p className="my-2 text-gray-500">{user?.email}</p>
             <div className="flex gap-6">
               <div className="bg-orange-300 text-orange-700 rounded-full text-center px-3 py-1 ">

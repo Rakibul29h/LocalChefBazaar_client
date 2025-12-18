@@ -8,6 +8,7 @@ import { IoTimeOutline } from "react-icons/io5";
 import { CircleCheckBig } from "lucide-react";
 import Barchar from "../../../components/DashBoard/Chart/Barchar";
 import Piechar from "../../../components/DashBoard/Chart/Piechar";
+import { Helmet } from "react-helmet-async";
 const PlatformStatistics = () => {
   const axiosSecure = useAxiosSecure();
 
@@ -48,6 +49,9 @@ const PlatformStatistics = () => {
   if (isLoading) return <LoadingSpinner></LoadingSpinner>;
   return (
     <div>
+      <Helmet>
+        <title>Platform Statistics</title>
+      </Helmet>
       <div className="mb-10 mt-5 mx-5">
         <h2 className="text-2xl font-semibold">Platform Statistics</h2>
         <p className="text-gray-500">Overview of LocalChefBazaar performance</p>
@@ -62,7 +66,9 @@ const PlatformStatistics = () => {
           </div>
           <div>
             <h4 className="text-gray-400 font-semibold">Total Revenue</h4>
-            <h1 className="text-4xl font-bold">$ {StatisticData.totalRevinue}</h1>
+            <h1 className="text-4xl font-bold">
+              $ {StatisticData.totalRevinue}
+            </h1>
           </div>
         </div>
 
@@ -100,19 +106,15 @@ const PlatformStatistics = () => {
         </div>
       </div>
       <div className=" flex flex-col lg:flex-row my-10 w-full gap-20 justify-center lg:items-center ">
-
         <div className="lg:flex-1 border border-gray-50 shadow-sm rounded-2xl px-5 py-5 h-[300px] md:h-[500px]">
+          <h2 className="text-2xl font-bold">Order matrics</h2>
 
-            <h2 className="text-2xl font-bold">Order matrics</h2>
-
-             <Barchar data={barChartData}></Barchar>
-    
-         
+          <Barchar data={barChartData}></Barchar>
         </div>
-  
+
         <div className="lg:flex-1 h-[300px] md:h-[500px] border p-5 border-gray-50 shadow-sm rounded-2xl">
-                <h2 className="text-2xl font-bold">Order matrics</h2>
-                <div></div>
+          <h2 className="text-2xl font-bold">Order matrics</h2>
+          <div></div>
           <Piechar data={pieChartData}></Piechar>
         </div>
       </div>
