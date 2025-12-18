@@ -1,16 +1,109 @@
-# React + Vite
+#  LocalChefBazaar – Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+LocalChefBazaar is a modern online marketplace that connects local home chefs with customers looking for fresh, healthy, and homemade meals.  
+This repository contains the **frontend (client-side)** of the LocalChefBazaar platform, built with **React** and modern UI tools to ensure performance, security, and an attractive user experience.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🌐 Live Website
+🔗 **Live URL:**   https://localchefbazaar-b1365.web.app
 
-## React Compiler
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## 🎯 Project Purpose
+The frontend application allows users to:
+- Explore daily meals from verified local chefs
+- Register and log in securely
+- View meal details and reviews
+- Place orders and manage favorites
+- Access role-based dashboards (User, Chef, Admin)
+- Enjoy a responsive and recruiter-friendly UI
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## ✨ Key Features
+
+### 🔐 Authentication & Security
+- Firebase Email & Password authentication
+- JWT-based route protection
+- Persistent login (no redirect on page reload)
+- Role-based UI access (User / Chef / Admin)
+
+### 🏠 Public Pages
+- Animated Hero section (Framer Motion)
+- Dynamic Daily Meals (server-driven)
+- Customer Reviews section
+- Meals Page with:
+  - Price sorting (ascending / descending)
+  - Pagination (10 meals per page)
+  - Login-protected details access
+
+### 🔒 Private Features
+- Meal Details Page with:
+  - Full meal information
+  - Review system (add & view)
+  - Add to Favorite feature
+- Order confirmation system
+- User Dashboard:
+  - My Profile
+  - My Orders
+  - My Reviews
+  - Favorite Meals
+- Chef Dashboard:
+  - Create Meal
+  - My Meals (Update / Delete)
+  - Order Requests management
+- Admin Dashboard:
+  - Manage Users & Fraud control
+  - Manage Role Requests
+  - Platform Statistics (Recharts)
+
+### 📱 UI & UX
+- Fully responsive (Mobile-first)
+- Loading spinner for app-wide loading
+- Global error page
+- Dynamic page titles (React Helmet Async)
+- Toast & SweetAlert notifications
+- Clean and professional dashboard layout
+
+---
+
+## 🛠️ Technologies & Packages Used
+
+### Core
+- React 18
+- Vite
+- React Router
+- Firebase Authentication
+
+### State & Data Handling
+- @tanstack/react-query
+- Axios
+
+### Forms & Validation
+- react-hook-form
+
+### Styling & UI
+- Tailwind CSS
+- DaisyUI
+- Headless UI
+- Lucide React
+- React Icons
+
+### Animations & UX
+- Framer Motion
+- React Responsive Carousel
+
+### Notifications & Charts
+- react-hot-toast
+- SweetAlert2
+- Recharts
+
+---
+
+## 🔐 Environment Variables
+All sensitive Firebase keys are secured using environment variables.
+
+
+
