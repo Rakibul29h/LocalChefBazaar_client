@@ -16,17 +16,17 @@ const HReview = () => {
       return result.data;
     },
   });
-  console.log(reviews);
+
   return (
     <Container>
-      <div className="my-5 md:my-10">
+      <div className="md:my-5 ">
         <h2 className="text-2xl sm:text-4xl md:text-5xl font-semibold text-center">
           What People Say
         </h2>
       </div>
-      <div className="my-20 px-10 py-5">
+      <div className="my-5 md:my-20 px-3 md:px-10 py-5">
         <Swiper
-          slidesPerView={3}
+          slidesPerView={1}
           spaceBetween={30}
           grabCursor={true}
           centeredSlides={true}
@@ -35,11 +35,25 @@ const HReview = () => {
             disableOnInteraction: false,
           }}
           modules={[Autoplay]}
-          loop={true}
+          loop={reviews.length >= 3}
           className="mySwiper"
+          breakpoints={{
+            640: {
+              slidesPerView: 1,
+              spaceBetween: 20,
+            },
+            768: {
+              slidesPerView: 2,
+              spaceBetween: 25,
+            },
+            1024: {
+              slidesPerView: 3,
+              spaceBetween: 30,
+            },
+          }}
         >
           {reviews.map((review) => (
-            <SwiperSlide key={review.id}>
+            <SwiperSlide key={review._id}>
               {" "}
               <div
                 key={review._id}
