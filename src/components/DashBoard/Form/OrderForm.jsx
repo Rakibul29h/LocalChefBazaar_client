@@ -7,6 +7,7 @@ import useAuth from "../../../hooks/useAuth";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../hooks/useSecureAxios";
 import { useNavigate } from "react-router";
+import toast from "react-hot-toast";
 
 const OrderForm = ({mealData}) => {
 
@@ -27,8 +28,7 @@ const OrderForm = ({mealData}) => {
     chefID,
     price
   } = mealData;
- 
-  console.log(mealData)
+
   const axiosSecure=useAxiosSecure();
   const onSubmit = async (data) => {
 
@@ -60,8 +60,10 @@ const OrderForm = ({mealData}) => {
         orderTime:new Date()
 
     }
+    console.log("object")
     axiosSecure.post("/orders",orderInfo)
     .then(res=>{
+      console.log(res)
       if(res.data.insertedId)
       {
         Swal.fire({
@@ -69,6 +71,9 @@ const OrderForm = ({mealData}) => {
           text: "Your order has been successfully placed.",
           icon: "success"
         });
+      }else if(res.data.message)
+      {
+        toast.error("Order cannot be placed: Account flagged")
       }
       reset()
       navigate(-1)

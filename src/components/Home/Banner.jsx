@@ -15,9 +15,9 @@ const Banner = () => {
       interval={3000}
       showStatus={false}
       showThumbs={false}
-      swipeable={true}
+      swipeable={false}
       >
-   <div className="w-full h-[calc(100vh-40px)] max-h-[940px] bg-orange-50">
+   <div className="w-full min-h-[calc(100vh-40px)]  bg-orange-50">
         {/* banner 1 */}
         <Container>
           <div className="flex flex-col justify-center text-center sm:text-left sm:justify-between  sm:flex-row px-5  items-center gap-5 md:gap-10 h-[calc(100vh-40px)] max-h-[900px]">

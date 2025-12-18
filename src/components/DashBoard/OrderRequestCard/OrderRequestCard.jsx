@@ -109,7 +109,7 @@ const OrderRequestCard = ({ orderInfo }) => {
         {(orderStatus === "accepted" || orderStatus ==="delivered") ? (
           <div>
             <button
-              disabled={orderStatus === "delivered"}
+              disabled={orderStatus === "delivered" ||  orderInfo?.paymentStatus==="pending"}
               onClick={()=>handleOrder("delivered")}
               className="bg-orange-500 flex px-3 text-white py-1 btn ]hover:bg-orange-600 disabled:bg-gray-200 disabled:cursor-not-allowed disabled:text-gray-500"
             >

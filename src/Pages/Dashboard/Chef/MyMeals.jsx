@@ -27,15 +27,18 @@ const MyMeals = () => {
                   <Helmet>
         <title>My Meal</title>
       </Helmet>
-            <div className='mb-10 mt-5 mx-5'>
+            <div className='mb-10 mt-5 md:mx-5'>
                 <h2 className='text-2xl font-semibold'> My Meals</h2>
                 <p className='text-gray-500'>Manage the meals you offer</p>
             </div>
-            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 w-full'>
+            {
+                mealsData.length>0?     <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 w-full'>
               {
             mealsData.map((meal)=><MealsCard key={meal._id} mealData={meal}></MealsCard>)
            }  
-            </div>
+            </div> :<span className="my-5 text-lg md:px-5 text-gray-500">You haven't create any meals  yet.</span>
+            }
+       
            
         </div>
     );

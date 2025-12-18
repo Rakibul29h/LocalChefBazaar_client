@@ -4,6 +4,7 @@ import {  useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useSecureAxios";
 import useAuth from "../../../hooks/useAuth";
 import useChefID from "../../../hooks/useChefID";
+import { Helmet } from "react-helmet-async";
 
 const OrderRequest = () => {
     const {user}=useAuth();
@@ -29,11 +30,13 @@ const OrderRequest = () => {
         <h2 className="text-2xl font-semibold"> Order Requests</h2>
         <p className="text-gray-500">Manage incoming orders from customers</p>
       </div>
-      <div className="flex flex-col gap-10">
+      {
+        OrdersData.length>0?  <div className="flex flex-col gap-10">
         {
             OrdersData.map(order=><OrderRequestCard key={order._id} orderInfo={order} ></OrderRequestCard>)
         }
-      </div>
+      </div>:<span className="my-5 text-lg md:px-5 text-gray-500">You haven't  any order requests  yet.</span>
+      }
     </div>
   );
 };

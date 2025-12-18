@@ -14,20 +14,16 @@ import AdminMenu from "../../../Pages/Dashboard/Menu/AdminMenu";
 import CustomerMenu from "../../../Pages/Dashboard/Menu/CustomerMenu";
 import ChefMenu from "../../../Pages/Dashboard/Menu/ChefMenu";
 import useRole from "../../../hooks/useRole";
-import { useState } from "react";
 import LoadingSpinner from "../../Shared/LoadingSpinner/LoadingSpinner";
 
-const Sidebar = () => {
-  const [isActive, setActive] = useState(false);
+const Sidebar = ({ isActive, setActive }) => {
   const [role, isLoading] = useRole();
 
   const { logOut } = useAuth();
-  // Sidebar Responsive Handler
   const handleToggle = () => {
     setActive(!isActive);
   };
 
-  // if (isRoleLoading) return <LoadingSpinner />;
   return (
     <>
       <div className="bg-orange-50 text-gray-800 flex justify-between md:hidden">
@@ -41,7 +37,7 @@ const Sidebar = () => {
 
         <button
           onClick={handleToggle}
-          className="mobile-menu-button p-4 focus:outline-none focus:bg-orange-200"
+          className="mobile-menu-button p-4 focus:outline-none "
         >
           <AiOutlineBars className="h-5 w-5" />
         </button>
@@ -69,9 +65,15 @@ const Sidebar = () => {
               <LoadingSpinner></LoadingSpinner>
             ) : (
               <nav>
-                {role === "Customer" && <CustomerMenu></CustomerMenu>}
-                {role === "Admin" && <AdminMenu></AdminMenu>}
-                {role === "Chef" && <ChefMenu></ChefMenu>}
+                {role === "Customer" && (
+                  <CustomerMenu setActive={setActive}></CustomerMenu>
+                )}
+                {role === "Admin" && (
+                  <AdminMenu setActive={setActive}></AdminMenu>
+                )}
+                {role === "Chef" && (
+                  <ChefMenu setActive={setActive}></ChefMenu>
+                )}
               </nav>
             )}
           </div>

@@ -29,11 +29,14 @@ const MyOrders = () => {
         <p className="text-gray-500">Track your delicious deliveries</p>
       </div>
     
-        <div className="grid grid-cols-1  sm:grid-cols-2 lg:grid-cols-3 gap-5">
+    {
+      ordersData.length>0?<div className="grid grid-cols-1  sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {ordersData.map((order) => (
             <OrderCard key={order._id} order={order}></OrderCard>
           ))}
-        </div>
+        </div>:<span className="my-5 text-lg md:px-5 text-gray-500">You haven't order any meals  yet.</span>
+    }
+        
       
     </div>
   );

@@ -71,6 +71,7 @@ const Profile = () => {
   );
   return (
     <div className="flex justify-center items-center h-screen">
+     
       <div className="bg-white shadow-lg rounded-2xl w-full md:w-4/5 xl:w-3/5">
         <div
           alt="cover photo"
@@ -80,7 +81,7 @@ const Profile = () => {
           <a href="#" className="relative block">
             <img
               alt="profile"
-              src={user?.photoURL}
+              src={user?.photoURL  }
               className="mx-2 object-cover rounded-full h-32 w-32  border-3 shadow-lg border-gray-300 "
             />
           </a>
@@ -102,7 +103,7 @@ const Profile = () => {
               <div className="bg-orange-300 text-orange-700 rounded-full text-center px-3 py-1 ">
                 {role}
               </div>
-              <div className="bg-lime-300 text-lime-700 rounded-full text-center px-3 py-1 ">
+              <div className ={`${userData.status==="Fraud"?"bg-red-400 text-red-800":"bg-lime-300 text-lime-700"}  rounded-full text-center px-3 py-1 `}>
                 {userData.status}
               </div>
             </div>

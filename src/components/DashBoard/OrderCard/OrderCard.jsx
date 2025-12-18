@@ -72,10 +72,15 @@ const OrderCard = ({ order }) => {
             <span className="text-gray-900 font-bold">{chefID}</span>
           </div>
           <div className="flex justify-between items-center text-sm">
-            <span className="text-gray-500">Delivery Time:</span>
-            <span className="text-gray-900 font-bold">
+            <span className="text-gray-500">Delivey Time:</span>
+            <div className="flex flex-col">
+              <span className="text-gray-900 font-bold">
               {new Date(orderTime).toLocaleTimeString("En-us")}
             </span>
+                
+           <span className="text-gray-900 font-bold">{new Date(orderTime).toDateString("En-us").slice(4)}</span>
+            </div>
+            
           </div>
         </div>
       </div>

@@ -6,10 +6,11 @@ import useAxios from "./../../hooks/useAxios";
 import { useQuery } from "@tanstack/react-query";
 import { Star } from "lucide-react";
 import Container from "../Shared/Container/Container";
+import LoadingSpinner from "../Shared/LoadingSpinner/LoadingSpinner";
 const HReview = () => {
   const Axios = useAxios();
 
-  const { data: reviews = [] } = useQuery({
+  const { data: reviews = [],isLoading } = useQuery({
     queryKey: ["HomeReview"],
     queryFn: async () => {
       const result = await Axios(`/Hreview`);
@@ -17,6 +18,7 @@ const HReview = () => {
     },
   });
 
+  if(isLoading) return <LoadingSpinner></LoadingSpinner>
   return (
     <Container>
       <div className="md:my-5 ">

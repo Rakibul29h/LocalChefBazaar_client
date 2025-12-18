@@ -24,7 +24,7 @@ const UpdateReviewModal = ({ isOpen, setIsOpen,data }) => {
       mutationFn: async (payload) =>
         await axiosSecure.patch(`/myReview/${data._id}`, payload),
       onSuccess: (data) => {
-        console.log(data.data)
+       
         if(data.data.modifiedCount)
         {
             toast.success("Review Updated successfully");

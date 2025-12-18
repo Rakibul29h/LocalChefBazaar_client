@@ -5,6 +5,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Trash2 } from "lucide-react";
 import Swal from "sweetalert2";
 import { Helmet } from "react-helmet-async";
+import LoadingSpinner from "../../../components/Shared/LoadingSpinner/LoadingSpinner";
 
 const FavoriteMeals = () => {
 
@@ -12,7 +13,7 @@ const FavoriteMeals = () => {
     const axiosSecure=useAxiosSecure()
     const queryClient = useQueryClient();
 
-    const {data:favoriteMeals=[]}=useQuery({
+    const {data:favoriteMeals=[],isLoading}=useQuery({
         queryKey:["favoriteMeals",user],
         queryFn: async()=>{
             const result =await axiosSecure(`/myFavorite?email=${user?.email}`);
@@ -45,6 +46,7 @@ const FavoriteMeals = () => {
            }
          });
    }
+   if(isLoading) return <LoadingSpinner></LoadingSpinner>
   return (
     <div>
             <Helmet>
@@ -54,7 +56,10 @@ const FavoriteMeals = () => {
         <h2 className="text-2xl font-semibold">  Favorite Meals</h2>     
       </div>
         <div className="overflow-x-auto">
-        <table className="table ">
+
+
+{
+  favoriteMeals?.length>0 ? <table className="table ">
           {/* head */}
           <thead>
             <tr className="bg-base-300">
@@ -81,7 +86,9 @@ const FavoriteMeals = () => {
             } 
             
           </tbody>
-        </table>
+        </table>:<span className="my-5 text-lg text-gray-500">You haven't added any meals to your favorites yet.</span>
+}
+       
       </div>
     </div>
   );

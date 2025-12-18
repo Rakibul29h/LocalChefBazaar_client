@@ -6,14 +6,10 @@ import useAxiosSecure from "../../hooks/useSecureAxios";
 import { useQuery } from "@tanstack/react-query";
 import LoadingSpinner from "../../components/Shared/LoadingSpinner/LoadingSpinner";
 import Container from "../../components/Shared/Container/Container";
-import { motion } from "framer-motion";
 const MealsContainer = ({sort,search}) => {
      const [totalPage, setTotalPage] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
-    const sectionVariants = {
-    hidden: { opacity: 0, y: 50 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8 } },
-  };
+
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
   const limit = 9;
@@ -36,17 +32,8 @@ if(isLoading) return <LoadingSpinner></LoadingSpinner>
        
           <div className="grid  grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 w-full">
             {mealsData.map((meal) => (
-          <motion.div
-          key={meal._id}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.3 }}
-        variants={sectionVariants}
-      >
-      <ShowMealCard  mealData={meal}></ShowMealCard>
-      </motion.div>
-         
-        ))}
+              <ShowMealCard key={meal._id} mealData={meal}></ShowMealCard>
+            ))}
           </div>
        
 

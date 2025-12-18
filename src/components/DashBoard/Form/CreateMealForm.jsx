@@ -36,8 +36,12 @@ const CreateMealForm = () => {
     mutationFn: async (payload) =>
       await axiosSecure.post(`/createMeals`, payload),
     onSuccess: (data) => {
-        if(data.data.insertedId)
+        if(data.data.insertedId){
              toast.success("Meal Added successfully");
+         }else if(data.data.message)
+      {
+        toast.error("Order cannot be placed: Account flagged")
+      }
       mutationReset();
       
     }
@@ -86,7 +90,7 @@ const CreateMealForm = () => {
     < >
         {/* Form Section */}
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-          <div className="bg-white  rounded-lg p-6 md:p-8">
+          <div className="bg-white  rounded-lg px-2 py-6 md:p-8">
             <div className="grid grid-cols-1 items-center sm:grid-cols-2 gap-6">
               {/* Chef Name */}
               <div className="form-control w-full">
