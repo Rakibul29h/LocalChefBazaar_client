@@ -5,12 +5,13 @@ import useAxiosSecure from "../../../hooks/useSecureAxios";
 import useAuth from "../../../hooks/useAuth";
 import useChefID from "../../../hooks/useChefID";
 import { Helmet } from "react-helmet-async";
+import LoadingSpinner from "../../../components/Shared/LoadingSpinner/LoadingSpinner";
 
 const OrderRequest = () => {
     const {user}=useAuth();
-    const [chefID]=useChefID()
+    const [chefID,isChefLoading]=useChefID()
     const axiosSecure=useAxiosSecure();
-    const {data:OrdersData=[]}=useQuery(
+    const {data:OrdersData=[],isLoading}=useQuery(
         {
             enabled: !!chefID,
             queryKey:["orders",user,chefID],
@@ -20,7 +21,9 @@ const OrderRequest = () => {
             }
         }
     )
-   
+    if(isChefLoading) return <LoadingSpinner></LoadingSpinner>
+    if(isLoading) return <LoadingSpinner></LoadingSpinner>
+    
   return (
     <div>
             <Helmet>

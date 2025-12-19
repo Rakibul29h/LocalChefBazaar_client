@@ -9,14 +9,11 @@ const axiosInstance = axios.create({
 })
 
 const useAxiosSecure = () => {
-  const { user, logOut, loading } = useAuth()
+  const { user, logOut, loading,tokenReady } = useAuth()
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (!loading &&user ) {
-      // Add request interceptor
-      
-      // Add response interceptor
+    if (!loading &&user && tokenReady ) {
       const responseInterceptor = axiosInstance.interceptors.response.use(
         res => res,
         err => {

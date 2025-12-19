@@ -7,7 +7,7 @@ const useChefID = () => {
   const { user, loading } = useAuth()
   const axiosSecure = useAxiosSecure()
 
-  const { data: chefID="", isLoading: isRoleLoading } = useQuery({
+  const { data: chefID="", isLoading: isChefLoading } = useQuery({
     enabled: !loading && !!user?.email,
     queryKey: ['chefID', user?.email],
     queryFn: async () => {
@@ -15,7 +15,7 @@ const useChefID = () => {
       return result.data.chefID
     },
   })
-  return [chefID, isRoleLoading]
+  return [chefID, isChefLoading]
 }
 
 export default useChefID

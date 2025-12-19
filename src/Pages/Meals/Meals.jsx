@@ -10,7 +10,7 @@ const Meals = () => {
 
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("");
-
+ const [currentPage, setCurrentPage] = useState(0);
 
   const handleSort = (e) => {
     setSort(e.target.value);
@@ -18,6 +18,7 @@ const Meals = () => {
   const handleChange = (e) => {
     const value = e.target.value;
     setSearch(value);
+    setCurrentPage(0)
   };
 
 
@@ -63,7 +64,7 @@ const Meals = () => {
           </select>
         </fieldset>
       </div>
-      <MealsContainer sort={sort} search={search}></MealsContainer>
+      <MealsContainer sort={sort} search={search} currentPage={currentPage} setCurrentPage={setCurrentPage} ></MealsContainer>
     
     </Container>
   );

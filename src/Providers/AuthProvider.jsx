@@ -66,13 +66,6 @@ const AuthProvider = ({ children }) => {
       } finally {
         setLoading(false);
       }
-      // if (currentUser) {
-      //   await Axios.post(
-      //     "/getToken",
-
-      //   );
-      // }
-      // setLoading(false);
     });
     return () => {
       return unsubscribe();
