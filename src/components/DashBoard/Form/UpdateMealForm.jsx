@@ -228,6 +228,7 @@ const UpdateMealForm = ({data,setIsOpen}) => {
                   min="0"
                   max="5"
                   defaultValue={data.rating}
+                  readOnly
                   className={`input input-bordered w-full focus:outline-none focus:border-orange-500
                   }`}
                   {...register("rating")}
@@ -286,15 +287,27 @@ const UpdateMealForm = ({data,setIsOpen}) => {
 
             {/* Submit Button */}
             <div className="mt-8">
+          
               <button
                 type="submit"
-                className="btn btn-block bg-[#E85D04] hover:bg-[#d05202] text-white border-none normal-case text-lg font-medium"
+                className="btn  bg-[#E85D04] hover:bg-[#d05202] text-white border-none normal-case text-lg font-medium"
               >
                Update
               </button>
             </div>
           </div>
         </form>
+        
+              <div className="relative">
+                <div className=" absolute -top-16 right-0 ">
+                  <button
+                    className="btn btn-outline btn-error rounded-full hover:text-white"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
  
     </>
   );

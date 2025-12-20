@@ -3,14 +3,33 @@ import UpdateReviewModal from "../../Modal/UpdateReviewModal/UpdateReviewModal";
 import { Star } from "lucide-react";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../hooks/useSecureAxios";
-import { useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import useAuth from "../../../hooks/useAuth";
+import toast from "react-hot-toast";
 
 const MyReviewCard = ({ data }) => {
     const {user}=useAuth();
   const [isOpen, setIsOpen] = useState(false);
     const axiosSecure=useAxiosSecure();
       const queryClient = useQueryClient();
+
+        const { mutateAsync, reset: mutationReset,isPending } = useMutation({
+    mutationFn: async () =>
+         await axiosSecure.delete(`/myReview/${data._id}?foodId=${data.foodId}`) ,
+    onSuccess: (data) => {
+        if (data.data.deletedCount) {
+            Swal.fire({
+              title: "Deleted!",
+              text: "Your review has been deleted.",
+              icon: "success",
+            });
+            queryClient.invalidateQueries({
+              queryKey:["myReviews",user?.email],
+            });
+          }
+      mutationReset();
+    },
+  });
   const deleteHandler = () => {
     Swal.fire({
       title: "Are you sure?",
@@ -20,20 +39,11 @@ const MyReviewCard = ({ data }) => {
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, delete it!",
-    }).then((result) => {
+    }).then(async(result) => {
       if (result.isConfirmed) {
-        axiosSecure.delete(`/myReview/${data._id}`).then((res) => {
-          if (res.data.deletedCount) {
-            Swal.fire({
-              title: "Deleted!",
-              text: "Your review has been deleted.",
-              icon: "success",
-            });
-            queryClient.invalidateQueries({
-              queryKey:["myReviews",user],
-            });
-          }
-        });
+
+        await mutateAsync()
+      
       }
     });
 
@@ -82,7 +92,7 @@ const MyReviewCard = ({ data }) => {
             onClick={deleteHandler}
             className="flex-1 bg-red-50 hover:bg-red-100 text-red-500 text-sm font-semibold py-2.5 rounded-xl transition-colors duration-200"
           >
-            Delete
+            {isPending?"Deleting....":"Delete"}
           </button>
           <UpdateReviewModal
             isOpen={isOpen}

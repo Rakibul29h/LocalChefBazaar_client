@@ -37,6 +37,7 @@ const DetailPage = () => {
     price,
     deliveryTime,
     ingredients,
+    averageRating
   } = mealsData;
   const nevigate=useNavigate();
   const handleBack=()=>{
@@ -60,7 +61,7 @@ const DetailPage = () => {
      }
     })
   }
-  if(isLoading) return <LoadingSpinner></LoadingSpinner>
+  if(isLoading) return <LoadingSpinner smallHeight={"h-10"}></LoadingSpinner>
   return (
     <div className="min-h-screen bg-gray-50 p-4 md:p-8 font-sans">
             <Helmet>

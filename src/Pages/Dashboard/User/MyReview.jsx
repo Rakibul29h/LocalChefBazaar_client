@@ -16,13 +16,13 @@ const MyReview = () => {
 
 
     const {data:myReviews=[],isLoading}=useQuery({
-        queryKey:["myReviews",user],
+        queryKey:["myReviews",user?.email],
         queryFn: async ()=>{
          const result=   await axiosSecure(`/myReviews?email=${user?.email}`)
          return result.data;
         }
     })
-    if(isLoading) return <LoadingSpinner></LoadingSpinner>
+    if(isLoading) return <LoadingSpinner ></LoadingSpinner>
     return (
         <div>
                   <Helmet>
